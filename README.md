@@ -1,2 +1,0 @@
-# Test
-My first repo
