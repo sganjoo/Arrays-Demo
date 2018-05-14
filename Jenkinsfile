@@ -6,7 +6,7 @@ pipeline {
 
   }
   stages {
-    stage('Setup') {
+    stage('Build app') {
       agent {
         node {
           label 'Test'
@@ -14,7 +14,9 @@ pipeline {
 
       }
       steps {
-        echo 'running setup'
+        echo 'Building app'
+        sh '''"C:\\Program Files (x86)\\National Instruments\\Shared\\LabVIEW CLI\\LabVIEWCLI.exe" -LogToConsole true -OperationName ExecuteBuildSp
+ec -ProjectPath "Arrays.lvproj" -BuildSpecName "Arrays app"'''
       }
     }
   }
