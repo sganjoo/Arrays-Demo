@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Setup') {
       steps {
-        echo 'setup'
+        echo 'running setup'
       }
     }
   }
