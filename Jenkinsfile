@@ -7,6 +7,12 @@ pipeline {
   }
   stages {
     stage('Setup') {
+      agent {
+        node {
+          label 'Test'
+        }
+
+      }
       steps {
         echo 'running setup'
       }
