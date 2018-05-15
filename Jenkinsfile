@@ -10,7 +10,7 @@ pipeline {
       }
       steps {
         echo 'Building app'
-        bat 'C:\\Jenkins\\scripts\\build\\build.bat'
+        bat 'C:\\Jenkins\\scripts\\build\\test.bat'
       }
     }
   }
