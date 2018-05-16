@@ -4,7 +4,7 @@ pipeline {
     stage('Build app') {
       agent {
         node {
-          label 'Test'
+          label 'LV2018Win764bit'
         }
 
       }
