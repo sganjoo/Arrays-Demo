@@ -10,7 +10,7 @@ pipeline {
       }
       steps {
         echo 'Building app'
-        bat '.\\build.bat'
+        bat '.\\scripts\\build.bat'
       }
     }
   }
