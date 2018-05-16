@@ -10,8 +10,7 @@ pipeline {
       }
       steps {
         echo 'Building app'
-        bat 'C:\\Jenkins\\scripts\\build\\build.bat'
-        pwd(tmp: true)
+        bat '.\\scripts\\build.bat'
       }
     }
   }
