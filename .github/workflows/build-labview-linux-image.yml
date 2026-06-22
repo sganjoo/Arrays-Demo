@@ -6,7 +6,7 @@ on:
   # YOUR project's dependencies change (a *.vipc outside the tooling dir), monthly
   # for base-image security updates, or on demand from the dashboard / dispatch.
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - '**.vipc'
       - '!.github/**'

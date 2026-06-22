@@ -6,7 +6,7 @@ on:
   # Re-render after a script/tooling update from the dashboard's "Run all history"
   # prompt or workflow_dispatch.
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - '**.vi'
       - '**.ctl'
@@ -119,17 +119,7 @@ jobs:
 
       - name: Ensure Docker daemon is running
         shell: powershell
-        run: |
-          $svc = Get-Service docker -ErrorAction SilentlyContinue
-          if (-not $svc) {
-            Write-Error "Docker service not found on runner"
-            exit 1
-          }
-          if ($svc.Status -ne 'Running') {
-            Start-Service docker
-            Start-Sleep -Seconds 5
-          }
-          docker version
+        run: ./.github/labview/ensure-docker.ps1
 
       - name: Log in to GHCR
         uses: docker/login-action@v4

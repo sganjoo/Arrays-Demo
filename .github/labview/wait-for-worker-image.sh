@@ -30,14 +30,24 @@ if [ -z "$repo" ] || [ -z "$sha" ]; then
   exit 0
 fi
 
-# Most-recent "Build LabVIEW CI Image" run in a given API listing, as
-# "<status> <conclusion>" (empty when there is no such run). Errors (e.g. a missing
-# Actions:read scope) degrade to "" so a permission gap can never wedge CI here.
+# Look up the most-recent "Build LabVIEW CI Image" run in a given API listing and
+# stash the result in two globals -- done WITHOUT a command-substitution subshell
+# so the success flag survives into the caller: LR_OUT is "<status> <conclusion>"
+# (empty when there is no such run) and LR_OK is true only when the API call itself
+# succeeded. That lets the caller tell "no build run" apart from "couldn't reach
+# the Actions API" (a transient blip, a rate limit, or a missing actions:read
+# scope); a permission gap can never wedge CI here.
+LR_OUT=""
+LR_OK=false
 latest_run() {
-  gh api "$1" \
-    --jq "([.workflow_runs[]|select(.name==\"$workflow_name\")]|sort_by(.created_at)|last) as \$r
-          | if \$r then \"\(\$r.status) \(\$r.conclusion)\" else \"\" end" \
-    2>/dev/null || echo ""
+  if LR_OUT="$(gh api "$1" \
+      --jq "([.workflow_runs[]|select(.name==\"$workflow_name\")]|sort_by(.created_at)|last) as \$r
+            | if \$r then \"\(\$r.status) \(\$r.conclusion)\" else \"\" end" 2>/dev/null)"; then
+    LR_OK=true
+  else
+    LR_OK=false
+    LR_OUT=""
+  fi
 }
 
 api_sha="repos/${repo}/actions/runs?head_sha=${sha}&per_page=50"
@@ -53,9 +63,17 @@ if [ -n "${before:-}" ] && git cat-file -e "${before}^{commit}" 2>/dev/null; the
 fi
 
 # (2) Is a worker-image build currently in progress or queued (repo-wide)?
+# Retry on a FAILED API call (api_ok=false) so a transient Actions-API hiccup
+# can't make a job skip the wait and start on a stale or half-built image. A
+# genuine permission gap keeps api_ok=false through all attempts and then falls
+# through (building=false), so CI is never wedged here.
 building=false
-repo_latest="$(latest_run "$api_repo")"
-repo_status="${repo_latest%% *}"
+for _ in 1 2 3; do
+  latest_run "$api_repo"
+  [ "$LR_OK" = "true" ] && break
+  sleep 2
+done
+repo_status="${LR_OUT%% *}"
 case "$repo_status" in
   in_progress|queued|requested|waiting|pending) building=true ;;
 esac
@@ -79,7 +97,8 @@ seen=false
 
 while :; do
   now=$(date +%s)
-  run="$(latest_run "$api")"
+  latest_run "$api"
+  run="$LR_OUT"
   status="${run%% *}"
   conclusion="${run##* }"
   if [ -n "$run" ]; then seen=true; fi

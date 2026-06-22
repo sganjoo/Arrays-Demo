@@ -7,7 +7,7 @@ on:
   # outside the tooling dir), monthly for base-image security updates, or on
   # demand. After install, build it once from the dashboard (or workflow_dispatch).
   push:
-    branches: [main]
+    branches: [master]
     paths:
       # Your project's VI Package Configuration(s) are baked into the worker, so
       # changing your dependencies rebuilds it. The tooling's own vipc (added by
@@ -375,6 +375,10 @@ jobs:
           $version = 'win-' + $hex.Substring(0, 12)
           "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           Write-Host "Worker version: $version"
+
+      - name: Ensure Docker daemon is running
+        shell: powershell
+        run: ./.github/labview/ensure-docker.ps1
 
       - name: Pull or build LabVIEW VIPM base image
         shell: powershell
