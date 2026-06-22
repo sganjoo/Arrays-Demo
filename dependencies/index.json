@@ -1,8 +1,22 @@
 {
   "schema": 1,
   "repo": "sganjoo/Arrays-Demo",
-  "sha": "5bc443f2c138c662637ad342a7565573c994e626",
+  "sha": "fc90a6ffb180e72c1deedfe2c30be0ae0593fa80",
   "revisions": [
+    {
+      "sha": "fc90a6ffb180e72c1deedfe2c30be0ae0593fa80",
+      "short": "fc90a6f",
+      "message": "Add LabVIEW CI pipeline",
+      "author": "Sumedha Ganjoo",
+      "date": "2026-06-22T20:14:32Z"
+    },
+    {
+      "sha": "5cf3e4ae9ef45764e0ef0b6b203b77c0233016ce",
+      "short": "5cf3e4a",
+      "message": "ci: adopt LabVIEW CI tooling v3.37.0 (full update)",
+      "author": "github-actions[bot]",
+      "date": "2026-06-22T18:23:47Z"
+    },
     {
       "sha": "5bc443f2c138c662637ad342a7565573c994e626",
       "short": "5bc443f",

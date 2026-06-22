@@ -1044,7 +1044,7 @@
     // backfill) + the same token and optimistic-queued bridge as every other
     // dispatch on the dashboard.
     var HIST = [{"sha": "76d160d423366cc27d3bdf3274bb68ff458185ed", "short": "76d160d", "msg": "Merge pull request #2 from sganjoo/UploadLVCode"}, {"sha": "ce624e44402b579722ac26f77e4b88ce2981095f", "short": "ce624e4", "msg": "Adding Array example source"}];                        // [{sha, short, msg}] newest-first (project revisions)
-    var RAN = {"antidoc": 1, "masscompile": 1, "vi-analyzer": 1, "vidiff": 1};                     // {cap:1} caps with a result/active run somewhere in history
+    var RAN = {"antidoc": 1, "masscompile": 1};                     // {cap:1} caps with a result/active run somewhere in history
     var CAP_META = {                            // label + sub for each known capability
       'snapshots':   ['VI Snapshots', 'Renders every changed VI (one backfill pass)'],
       'vidiff':      ['VIDiff',       'Visual diff of the VIs each revision changed'],
@@ -1373,7 +1373,7 @@
   </script>
   <main class="lvci-main">
   <h1>CI Dashboard — Arrays-Demo</h1>
-  <div class="sub">Last updated: 2026-06-22 17:39 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
+  <div class="sub">Last updated: 2026-06-22 20:15 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
   <div class="nav">
     <a href="https://github.com/sganjoo/Arrays-Demo">GitHub</a>
     <a href="https://github.com/sganjoo/Arrays-Demo/actions">Actions</a>
@@ -1413,6 +1413,42 @@
       </tr>
     </thead>
     <tbody>
+    <tr data-project="false">
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(269,42%,45%)" title="Sumedha Ganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=fc90a6ffb180e72c1deedfe2c30be0ae0593fa80" class="cidash-rev-msg" title="Add LabVIEW CI pipeline">Add LabVIEW CI pipeline</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=fc90a6ffb180e72c1deedfe2c30be0ae0593fa80" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">fc90a6f</a><span class="cidash-rev-dot">&middot;</span>Sumedha Ganjoo<span class="cidash-rev-dot">&middot;</span>2026-06-22</div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+    </tr>
+
+    <tr data-project="false">
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(150,42%,45%)" title="github-actions[bot]" aria-hidden="true">G</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5cf3e4ae9ef45764e0ef0b6b203b77c0233016ce" class="cidash-rev-msg" title="ci: adopt LabVIEW CI tooling v3.37.0 (full update)">ci: adopt LabVIEW CI tooling v3.37.0 (full update)</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5cf3e4ae9ef45764e0ef0b6b203b77c0233016ce" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">5cf3e4a</a><span class="cidash-rev-dot">&middot;</span>github-actions[bot]<span class="cidash-rev-dot">&middot;</span>2026-06-22</div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+    </tr>
+
     <tr data-project="false">
       <td class="cidash-rev">
         <div class="cidash-rev-wrap">
@@ -2018,8 +2054,8 @@
         </div>
       </td>
       <td style="text-align:center" class="cidash-cap-cell" data-cap="masscompile" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" data-ts="2026-06-22T17:06:02Z"><span class="cidash-chip cc-fail"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.75.75 0 1 1 1.06 1.06L9.06 8l3.22 3.22a.75.75 0 1 1-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 0 1-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"/></svg><a href="https://github.com/sganjoo/Arrays-Demo/actions/runs/27970107823" style="color:inherit">compile</a></span></td>
-      <td style="text-align:center" class="cidash-cap-cell" data-cap="vi-analyzer" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" data-ts="2026-06-22T16:41:41Z"><span class="cidash-chip cc-warn"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.46 1.05c.66-1.23 2.43-1.23 3.08 0l6.08 11.38A1.75 1.75 0 0 1 14.08 15H1.92a1.75 1.75 0 0 1-1.54-2.57ZM8.75 5.75a.75.75 0 0 0-1.5 0v3a.75.75 0 0 0 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg><a href="https://github.com/sganjoo/Arrays-Demo/actions/runs/27968677536" style="color:inherit">analyze</a></span></td>
-      <td style="text-align:center" class="cidash-cap-cell" data-cap="vidiff" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" data-ts="2026-06-22T16:41:57Z"><span class="cidash-chip cc-warn"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.46 1.05c.66-1.23 2.43-1.23 3.08 0l6.08 11.38A1.75 1.75 0 0 1 14.08 15H1.92a1.75 1.75 0 0 1-1.54-2.57ZM8.75 5.75a.75.75 0 0 0-1.5 0v3a.75.75 0 0 0 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=76d160d423366cc27d3bdf3274bb68ff458185ed&changed=1" style="color:inherit">diff</a></span></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vi-analyzer" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" title="Run VI Analyzer for commit 76d160d">&#9655;</a></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vidiff" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" title="Run VIDiff for commit 76d160d">&#9655;</a></td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="snapshots" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" title="Run VI Snapshots for commit 76d160d">&#9655;</a></td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="unit-tests" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" title="Run Unit Tests for commit 76d160d">&#9655;</a></td>
       <td style="text-align:center" class="cidash-cap-cell" data-cap="antidoc" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" data-ts="2026-06-22T16:41:57Z"><span class="cidash-chip cc-fail"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.75.75 0 1 1 1.06 1.06L9.06 8l3.22 3.22a.75.75 0 1 1-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 0 1-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"/></svg><a href="https://github.com/sganjoo/Arrays-Demo/actions/runs/27968681068" style="color:inherit">docs</a></span></td>
@@ -2036,8 +2072,8 @@
         </div>
       </td>
       <td style="text-align:center" class="cidash-cap-cell" data-cap="masscompile" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" data-ts="2026-06-22T15:59:40Z"><span class="cidash-chip cc-fail"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.75.75 0 1 1 1.06 1.06L9.06 8l3.22 3.22a.75.75 0 1 1-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 0 1-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"/></svg><a href="https://github.com/sganjoo/Arrays-Demo/actions/runs/27966072408" style="color:inherit">compile</a></span></td>
-      <td style="text-align:center" class="cidash-cap-cell" data-cap="vi-analyzer" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" data-ts="2026-06-22T16:41:34Z"><span class="cidash-chip cc-warn"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.46 1.05c.66-1.23 2.43-1.23 3.08 0l6.08 11.38A1.75 1.75 0 0 1 14.08 15H1.92a1.75 1.75 0 0 1-1.54-2.57ZM8.75 5.75a.75.75 0 0 0-1.5 0v3a.75.75 0 0 0 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg><a href="https://github.com/sganjoo/Arrays-Demo/actions/runs/27968669699" style="color:inherit">analyze</a></span></td>
-      <td style="text-align:center" class="cidash-cap-cell" data-cap="vidiff" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" data-ts="2026-06-22T16:41:36Z"><span class="cidash-chip cc-warn"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.46 1.05c.66-1.23 2.43-1.23 3.08 0l6.08 11.38A1.75 1.75 0 0 1 14.08 15H1.92a1.75 1.75 0 0 1-1.54-2.57ZM8.75 5.75a.75.75 0 0 0-1.5 0v3a.75.75 0 0 0 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ce624e44402b579722ac26f77e4b88ce2981095f&changed=1" style="color:inherit">diff</a></span></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vi-analyzer" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" title="Run VI Analyzer for commit ce624e4">&#9655;</a></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vidiff" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" title="Run VIDiff for commit ce624e4">&#9655;</a></td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="snapshots" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" title="Run VI Snapshots for commit ce624e4">&#9655;</a></td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="unit-tests" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" title="Run Unit Tests for commit ce624e4">&#9655;</a></td>
       <td style="text-align:center" class="cidash-cap-cell" data-cap="antidoc" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" data-ts="2026-06-22T16:41:39Z"><span class="cidash-chip cc-fail"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.75.75 0 1 1 1.06 1.06L9.06 8l3.22 3.22a.75.75 0 1 1-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 0 1-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"/></svg><a href="https://github.com/sganjoo/Arrays-Demo/actions/runs/27968666188" style="color:inherit">docs</a></span></td>
