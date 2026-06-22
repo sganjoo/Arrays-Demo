@@ -6,9 +6,9 @@
   "base_image": "ghcr.io/sganjoo/arrays-demo-labview-vipm-base:2026",
   "base_digest": "ghcr.io/sganjoo/arrays-demo-labview-vipm-base@sha256:f91eb1ceb16ccb06bdc1f9ced667d95344494c1299e7b60953c2cf090b02b92f",
   "image_ref": "ghcr.io/sganjoo/arrays-demo-labview:win-2b1adf275472",
-  "build_date": "2026-06-22T21:44:26Z",
-  "git_sha": "fc90a6ffb180e72c1deedfe2c30be0ae0593fa80",
-  "run_url": "https://github.com/sganjoo/Arrays-Demo/actions/runs/27981044792",
+  "build_date": "2026-06-22T23:45:06Z",
+  "git_sha": "147379731e56900975183525bd4bf461b473a2ff",
+  "run_url": "https://github.com/sganjoo/Arrays-Demo/actions/runs/27987999538",
   "vipc": [
     {
       "file": "ci-tooling.vipc",
