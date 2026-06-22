@@ -24,7 +24,21 @@
     .lvci-tablewrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
     h1{font-size:1.4em;margin:0 0 4px}
     .sub{color:var(--fg-muted);font-size:.85em;margin-bottom:20px}
-    @media(max-width:820px){.lvci-main{padding:14px}h1{font-size:1.2em}}
+    @media(max-width:980px){
+      .lvci-main{padding:14px}
+      h1{font-size:1.2em}
+      .controls{align-items:stretch}
+      .cidash-search{flex:1 1 260px;min-width:0}
+      .cidash-search input{width:100%;max-width:none}
+      .cidash-segfilter{flex:1 1 260px;min-width:0}
+      .cidash-segfilter button{flex:1 1 auto;padding-left:8px;padding-right:8px}
+    }
+    @media(max-width:520px){
+      .lvci-main{padding:10px}
+      .controls{gap:8px}
+      .cidash-search,.cidash-segfilter,.cidash-colmenu,.cidash-colbtn{width:100%}
+      .cidash-segfilter button{font-size:.92em}
+    }
     table{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
     th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--border);color:var(--fg-muted);font-size:.8em;white-space:nowrap}
     td{border-bottom:1px solid var(--row-border);vertical-align:middle}
@@ -35,7 +49,20 @@
     .nav a{margin-right:16px;color:var(--link)}
     .controls{margin:0 0 12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:var(--fg-muted);font-size:.85em}
     .controls input{margin:0;accent-color:var(--link)}
+    /* When the shared header is present, the controls live in its sticky context
+       bar (moved there on lvci:ready), so drop the standalone margin + fill the bar. */
+    .lvci-ctxbar .controls{margin:0;flex:1 1 auto}
     .cidash-check{display:inline-flex;align-items:center;gap:6px}
+    /* Search box + status filter (compose with the CI-only toggle below). */
+    .cidash-search{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:5px 10px}
+    .cidash-search svg{width:14px;height:14px;color:var(--fg-muted);flex:0 0 auto}
+    .cidash-search input{border:0;background:none;color:var(--fg);font:inherit;outline:none;width:210px;max-width:42vw}
+    .cidash-search input::placeholder{color:var(--fg-muted)}
+    .cidash-segfilter{display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .cidash-segfilter button{background:var(--surface);border:0;border-right:1px solid var(--border);color:var(--fg-muted);padding:5px 12px;cursor:pointer;font:inherit;line-height:1.2}
+    .cidash-segfilter button:last-child{border-right:0}
+    .cidash-segfilter button:hover{color:var(--fg);background:var(--hover)}
+    .cidash-segfilter button.on{background:var(--link);color:#fff}
     /* Column-visibility menu (standard "Columns" dropdown of checkboxes). */
     .cidash-colmenu{position:relative;display:inline-block}
     .cidash-colbtn{background:var(--surface);border:1px solid var(--border);color:var(--fg);padding:5px 11px;border-radius:6px;cursor:pointer;font-size:1em;line-height:1.2;display:inline-flex;align-items:center;gap:6px}
@@ -54,12 +81,69 @@
     /* A run confirmed FAILED on GitHub: a sticky red badge (no spinner, no dashed
        "optimistic" ring) so an error shows instead of the cell silently reverting. */
     .run-badge.cidash-failed{background:#da3633;outline:none}
+    /* The red "bang" inside a failed badge: a bold white exclamation on the red
+       field, so a failed cell reads as a clickable error at a glance. */
+    .run-badge.cidash-failed .cidash-bang{font-weight:800;font-size:1.15em;line-height:1;margin-right:5px}
     .run-spin{width:9px;height:9px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;display:inline-block;animation:cidash-spin .7s linear infinite}
     /* The Queued badge places the spinner directly before its label (no flex gap),
        so give the spinner a small right margin to keep the icon off the "Q". */
     .run-badge.cidash-queued .run-spin{margin-right:5px}
     @keyframes cidash-spin{to{transform:rotate(360deg)}}
-    .cidash-run{display:inline-block;color:var(--fg-muted);font-size:.95em;line-height:1;text-decoration:none;opacity:.5;transition:opacity .12s,color .12s}.cidash-run:hover{opacity:1;color:var(--link);text-decoration:none}tr:hover .cidash-run{opacity:.85}.cidash-btn{border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:600;cursor:pointer;font-family:inherit}.cidash-go{background:#238636;color:#fff;border-color:transparent}.cidash-go:hover{background:#2ea043}.cidash-go:disabled{opacity:.6;cursor:default}.cidash-ghost{background:var(--bg);color:var(--fg)}.cidash-ghost:hover{border-color:var(--link)}.cidash-danger{background:#da3633;color:#fff;border-color:transparent}.cidash-danger:hover{background:#f85149}.cidash-danger:disabled{opacity:.6;cursor:default}.cidash-queued{cursor:pointer}.cidash-queued:hover{filter:brightness(1.13)}.cidash-queued:focus-visible{outline:2px solid var(--link);outline-offset:1px}.cidash-qpos{margin-left:5px;font-weight:700;opacity:.92;font-variant-numeric:tabular-nums}.cidash-qpos:empty{display:none}.lvci-backfill{border:1px solid var(--border);border-left:3px solid #1f6feb;background:var(--surface);border-radius:10px;padding:14px 16px;margin:0 0 18px}.lvci-bf-main{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.lvci-bf-icon{font-size:1.5em;line-height:1}.lvci-bf-text{flex:1 1 320px;min-width:240px;font-size:.9em;line-height:1.5}.lvci-bf-text strong{display:block;font-size:1.03em;margin-bottom:2px}.lvci-bf-text span{color:var(--fg-muted)}.lvci-bf-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.lvci-bf-tok{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;font-size:.84em;color:var(--fg-muted)}.lvci-bf-status{font-size:.82em;margin-top:10px}.lvci-bf-status:empty{display:none}.lvci-bf-note{display:block;margin-top:8px}.lvci-bf-info{margin-top:8px;font-size:.92em}.lvci-bf-info>summary{display:inline-block;cursor:pointer;color:var(--link);list-style:none;font-weight:600}.lvci-bf-info>summary::-webkit-details-marker{display:none}.lvci-bf-info>summary:hover{text-decoration:underline}.lvci-bf-info[open]>summary{margin-bottom:8px}.lvci-bf-infobody{color:var(--fg-muted);line-height:1.55;border-left:2px solid #1f6feb;padding-left:12px}.lvci-bf-cfg{display:inline-block;margin-top:8px;color:var(--link);font-weight:600}.cidash-hist-sec{margin:0 0 16px}.cidash-hist-lbl{display:block;font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-muted);margin:0 0 7px}.cidash-hist-scope{display:flex;flex-direction:column;gap:9px}.cidash-hist-radio{display:flex;align-items:center;gap:9px;font-size:.9em;cursor:pointer;user-select:none}.cidash-hist-radio input{accent-color:var(--link);width:15px;height:15px;margin:0;flex:0 0 auto}.cidash-hist-radio .sub{color:var(--fg-muted);font-size:.88em}.cidash-hist-rangerow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:2px 0 4px 25px}.cidash-hist-rangerow label{display:flex;align-items:center;gap:7px;font-size:.84em;color:var(--fg-muted)}#cidash-hist-from,#cidash-hist-to{padding:7px 9px;background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:6px;font-size:.85em;font-family:inherit;max-width:248px}.cidash-hist-spectools{display:flex;gap:14px;margin:2px 0 6px 25px;font-size:.8em}.cidash-hist-spectools a{color:var(--link);cursor:pointer}.cidash-hist-spectools a:hover{text-decoration:underline}.cidash-hist-speclist{display:flex;flex-direction:column;gap:1px;max-height:210px;overflow:auto;margin-left:25px;padding:5px;border:1px solid var(--border);border-radius:7px;background:var(--bg)}.cidash-hist-specitem{display:flex;align-items:center;gap:9px;padding:5px 7px;border-radius:5px;font-size:.84em;cursor:pointer;min-width:0}.cidash-hist-specitem:hover{background:var(--surface)}.cidash-hist-specitem input{accent-color:var(--link);width:14px;height:14px;margin:0;flex:0 0 auto}.cidash-hist-specitem .sh{font-family:ui-monospace,Menlo,monospace;color:var(--fg-muted);flex:0 0 auto}.cidash-hist-specitem .ms{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--fg)}.cidash-hist-acts{display:flex;flex-direction:column;gap:7px}.cidash-hist-act{display:flex;align-items:center;gap:9px;padding:8px 11px;border:1px solid var(--border);border-radius:7px;background:var(--bg);cursor:pointer;font-size:.88em;user-select:none}.cidash-hist-act:hover{border-color:var(--link)}.cidash-hist-act input{accent-color:var(--link);width:15px;height:15px;margin:0;flex:0 0 auto}.cidash-hist-act .cidash-hist-actsub{color:var(--fg-muted);font-size:.85em;margin-left:auto;text-align:right}.cidash-hist-act.disabled{opacity:.45;cursor:default}.cidash-hist-act.disabled:hover{border-color:var(--border)}.cidash-hist-toggle{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border:1px solid var(--border);border-left:3px solid #1f6feb;border-radius:8px;background:var(--surface);cursor:pointer;font-size:.88em;user-select:none}.cidash-hist-toggle input{accent-color:var(--link);width:15px;height:15px;margin:2px 0 0;flex:0 0 auto}.cidash-hist-toggle .cidash-hist-tmain{font-weight:600}.cidash-hist-toggle .cidash-hist-tsub{color:var(--fg-muted);font-size:.9em;margin-top:2px;font-weight:400}.cidash-hist-summary{font-size:.84em;color:var(--fg-muted);margin:0 0 12px}.cidash-hist-summary b{color:var(--fg)}
+    /* Status chips: a tinted pill + state glyph for every result cell. */
+    .cidash-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:.74em;font-weight:600;line-height:1.45;border:1px solid transparent;white-space:nowrap}
+    .cidash-chip svg{width:12px;height:12px;flex:0 0 auto}
+    .cidash-chip a{color:inherit}
+    .cidash-chip a:hover{text-decoration:underline}
+    .cidash-chip.cc-pass{background:rgba(46,160,67,.16);color:#3fb950;border-color:rgba(46,160,67,.35)}
+    .cidash-chip.cc-fail{background:rgba(248,81,73,.16);color:#f85149;border-color:rgba(248,81,73,.4)}
+    .cidash-chip.cc-warn{background:rgba(210,153,34,.16);color:#d29922;border-color:rgba(210,153,34,.35)}
+    .cidash-chip.cc-info{background:rgba(56,139,253,.16);color:#58a6ff;border-color:rgba(56,139,253,.3)}
+    @media(prefers-color-scheme:light){
+      .cidash-chip.cc-pass{background:#dafbe1;color:#1a7f37;border-color:#2da44e55}
+      .cidash-chip.cc-fail{background:#ffebe9;color:#cf222e;border-color:#cf222e44}
+      .cidash-chip.cc-warn{background:#fff8c5;color:#9a6700;border-color:#9a670055}
+      .cidash-chip.cc-info{background:#ddf4ff;color:#0969da;border-color:#0969da44}
+    }
+    /* Rich "Revision" cell: avatar + message (primary) + sha / author / date (meta). */
+    .cidash-rev{padding:8px;max-width:440px}
+    .cidash-rev-wrap{display:flex;gap:10px;align-items:flex-start;min-width:0}
+    .cidash-avatar{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:.78em;font-weight:600;text-transform:uppercase;line-height:1}
+    .cidash-rev-body{display:flex;flex-direction:column;min-width:0;gap:2px}
+    .cidash-rev-line1{display:flex;align-items:center;gap:6px;min-width:0}
+    .cidash-rev-msg{color:var(--fg);font-size:.9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;text-decoration:none}
+    .cidash-rev-msg:hover{text-decoration:underline}
+    .cidash-rev-meta{display:flex;align-items:center;gap:6px;font-size:.78em;color:var(--fg-muted);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cidash-rev-sha{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--link);text-decoration:none}
+    .cidash-rev-sha:hover{text-decoration:underline}
+    .cidash-rev-dot{color:var(--border)}
+    @media(max-width:980px){
+      .lvci-tablewrap{overflow:visible}
+      #cidash-table{display:block;width:100%;border:0;background:transparent}
+      #cidash-table thead{display:none}
+      #cidash-table tbody,#cidash-table tr,#cidash-table td{display:block;width:auto}
+      #cidash-table tr{border:1px solid var(--border);border-radius:10px;margin:0 0 12px;padding:8px 12px;background:var(--surface)}
+      #cidash-table td{border:0;padding:6px 0}
+      #cidash-table td.cidash-rev{max-width:none;padding:2px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px}
+      #cidash-table td:not(.cidash-rev){display:flex!important;align-items:center;justify-content:space-between;gap:12px;text-align:left!important;min-width:0}
+      #cidash-table td:not(.cidash-rev)::before{content:attr(data-label);color:var(--fg-muted);font-size:.82em;font-weight:600;flex:1 1 auto;min-width:9rem;text-align:left}
+      #cidash-table td:not(.cidash-rev)>*{flex:0 0 auto;max-width:56%;text-align:right;justify-content:flex-end}
+      .cidash-chip,.run-badge{white-space:normal;text-align:right;justify-content:flex-end}
+    }
+    @media(max-width:520px){
+      .lvci-main{padding:10px}
+      .lvci-ctxbar .controls{gap:8px}
+      .lvci-ctxbar .cidash-search{padding:4px 9px}
+      .lvci-ctxbar .cidash-segfilter button{padding:6px 8px}
+      .lvci-ctxbar .cidash-colbtn{justify-content:flex-start;padding:7px 10px}
+      #cidash-table tr{padding:8px 10px;border-radius:8px}
+      #cidash-table td:not(.cidash-rev){gap:8px;flex-wrap:nowrap}
+      #cidash-table td:not(.cidash-rev)::before{flex:1 1 52%;min-width:0}
+      #cidash-table td:not(.cidash-rev)>*{max-width:48%}
+      .cidash-rev{padding:8px 0}
+      .cidash-rev-msg{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+      .cidash-rev-meta{flex-wrap:wrap;white-space:normal}
+    }
+    .cidash-run{display:inline-block;color:var(--fg-muted);font-size:.95em;line-height:1;text-decoration:none;opacity:.5;transition:opacity .12s,color .12s}.cidash-run:hover{opacity:1;color:var(--link);text-decoration:none}tr:hover .cidash-run{opacity:.85}.snap-glyph{display:inline-flex;align-items:center;color:var(--fg-muted);opacity:.6;text-decoration:none;flex:0 0 auto;transition:opacity .12s,color .12s}.snap-glyph:hover{opacity:1;color:var(--link)}tr:hover .snap-glyph{opacity:.85}.cidash-btn{border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:.85em;font-weight:600;cursor:pointer;font-family:inherit}.cidash-go{background:#238636;color:#fff;border-color:transparent}.cidash-go:hover{background:#2ea043}.cidash-go:disabled{opacity:.6;cursor:default}.cidash-ghost{background:var(--bg);color:var(--fg)}.cidash-ghost:hover{border-color:var(--link)}.cidash-danger{background:#da3633;color:#fff;border-color:transparent}.cidash-danger:hover{background:#f85149}.cidash-danger:disabled{opacity:.6;cursor:default}.cidash-queued{cursor:pointer}.cidash-queued:hover{filter:brightness(1.13)}.cidash-queued:focus-visible{outline:2px solid var(--link);outline-offset:1px}.cidash-qpos{margin-left:5px;font-weight:700;opacity:.92;font-variant-numeric:tabular-nums}.cidash-qpos:empty{display:none}.lvci-backfill{border:1px solid var(--border);border-left:3px solid #1f6feb;background:var(--surface);border-radius:10px;padding:14px 16px;margin:0 0 18px}.lvci-bf-main{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.lvci-bf-icon{font-size:1.5em;line-height:1}.lvci-bf-text{flex:1 1 320px;min-width:240px;font-size:.9em;line-height:1.5}.lvci-bf-text strong{display:block;font-size:1.03em;margin-bottom:2px}.lvci-bf-text span{color:var(--fg-muted)}.lvci-bf-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.lvci-bf-tok{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;font-size:.84em;color:var(--fg-muted)}.lvci-bf-status{font-size:.82em;margin-top:10px}.lvci-bf-status:empty{display:none}.lvci-bf-note{display:block;margin-top:8px}.lvci-bf-info{margin-top:8px;font-size:.92em}.lvci-bf-info>summary{display:inline-block;cursor:pointer;color:var(--link);list-style:none;font-weight:600}.lvci-bf-info>summary::-webkit-details-marker{display:none}.lvci-bf-info>summary:hover{text-decoration:underline}.lvci-bf-info[open]>summary{margin-bottom:8px}.lvci-bf-infobody{color:var(--fg-muted);line-height:1.55;border-left:2px solid #1f6feb;padding-left:12px}.lvci-bf-cfg{display:inline-block;margin-top:8px;color:var(--link);font-weight:600}.cidash-hist-sec{margin:0 0 16px}.cidash-hist-lbl{display:block;font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-muted);margin:0 0 7px}.cidash-hist-scope{display:flex;flex-direction:column;gap:9px}.cidash-hist-radio{display:flex;align-items:center;gap:9px;font-size:.9em;cursor:pointer;user-select:none}.cidash-hist-radio input{accent-color:var(--link);width:15px;height:15px;margin:0;flex:0 0 auto}.cidash-hist-radio .sub{color:var(--fg-muted);font-size:.88em}.cidash-hist-rangerow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:2px 0 4px 25px}.cidash-hist-rangerow label{display:flex;align-items:center;gap:7px;font-size:.84em;color:var(--fg-muted)}#cidash-hist-from,#cidash-hist-to{padding:7px 9px;background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:6px;font-size:.85em;font-family:inherit;max-width:248px}.cidash-hist-spectools{display:flex;gap:14px;margin:2px 0 6px 25px;font-size:.8em}.cidash-hist-spectools a{color:var(--link);cursor:pointer}.cidash-hist-spectools a:hover{text-decoration:underline}.cidash-hist-speclist{display:flex;flex-direction:column;gap:1px;max-height:210px;overflow:auto;margin-left:25px;padding:5px;border:1px solid var(--border);border-radius:7px;background:var(--bg)}.cidash-hist-specitem{display:flex;align-items:center;gap:9px;padding:5px 7px;border-radius:5px;font-size:.84em;cursor:pointer;min-width:0}.cidash-hist-specitem:hover{background:var(--surface)}.cidash-hist-specitem input{accent-color:var(--link);width:14px;height:14px;margin:0;flex:0 0 auto}.cidash-hist-specitem .sh{font-family:ui-monospace,Menlo,monospace;color:var(--fg-muted);flex:0 0 auto}.cidash-hist-specitem .ms{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--fg)}.cidash-hist-intro{margin:0 0 16px;color:var(--fg-muted);font-size:.86em;line-height:1.55}.cidash-hist-actshead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 10px;margin:0 0 9px}.cidash-hist-quick{display:flex;flex-wrap:wrap;gap:6px}.cidash-hist-chip{border:1px solid var(--border);background:var(--bg);color:var(--fg);border-radius:999px;padding:4px 11px;font-size:.76em;font-weight:600;cursor:pointer;font-family:inherit}.cidash-hist-chip:hover{border-color:var(--link);color:var(--link)}.cidash-hist-acts{display:flex;flex-direction:column;gap:7px}.cidash-hist-actsempty{color:var(--fg-muted);font-size:.85em;padding:4px 2px}.cidash-hist-act{display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:9px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg)}.cidash-hist-act.skip .cidash-hist-actinfo,.cidash-hist-act.skip .cidash-hist-actcount{opacity:.5}.cidash-hist-actinfo{flex:1 1 180px;min-width:150px}.cidash-hist-actname{font-size:.9em;font-weight:600}.cidash-hist-actsub{color:var(--fg-muted);font-size:.82em;margin-top:1px;line-height:1.4}.cidash-hist-actcount{font-size:.74em;color:var(--fg-muted);white-space:nowrap;flex:0 0 auto;text-align:right;margin-left:auto;font-variant-numeric:tabular-nums}.cidash-seg{display:inline-flex;flex:0 0 auto;border:1px solid var(--border);border-radius:7px;overflow:hidden}.cidash-seg button{border:0;background:transparent;color:var(--fg-muted);padding:5px 11px;font-size:.78em;font-weight:600;cursor:pointer;font-family:inherit;line-height:1.5}.cidash-seg button+button{border-left:1px solid var(--border)}.cidash-seg button.on{background:var(--link);color:#fff}.cidash-seg button:disabled{opacity:.34;cursor:default}.cidash-seg button:not(.on):not(:disabled):hover{background:var(--surface);color:var(--fg)}.cidash-hist-summary{font-size:.84em;color:var(--fg-muted);margin:0 0 12px}.cidash-hist-summary b{color:var(--fg)}
   </style>
 </head>
 <body>
@@ -118,7 +202,7 @@
   </div>
   <script>
   (function(){
-    var RT = {"masscompile": {"label": "Mass Compile", "platforms": {"windows": {"wf": "masscompile-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}, "linux": {"wf": "masscompile-linux-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "vi-analyzer": {"label": "VI Analyzer", "platforms": {"windows": {"wf": "run-vi-analyzer-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}, "linux": {"wf": "run-vi-analyzer-linux-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "vidiff": {"label": "VIDiff", "platforms": {"windows": {"wf": "vidiff-windows-container.yml", "inputs": {"head_sha": "{sha}", "base_sha": "{parent}"}}, "linux": {"wf": "vidiff-linux-container.yml", "inputs": {"head_sha": "{sha}", "base_sha": "{parent}"}}}}, "snapshots": {"label": "VI Snapshots", "platforms": {"all": {"wf": "vi-snapshots.yml", "inputs": {"mode": "head"}}}}, "unit-tests": {"label": "Unit Tests", "platforms": {"windows": {"wf": "unit-tests-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "antidoc": {"label": "Antidoc", "platforms": {"windows": {"wf": "run-antidoc-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}}}};
+    var RT = {"masscompile": {"label": "Mass Compile", "platforms": {"windows": {"wf": "masscompile-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}, "linux": {"wf": "masscompile-linux-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "vi-analyzer": {"label": "VI Analyzer", "platforms": {"windows": {"wf": "run-vi-analyzer-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}, "linux": {"wf": "run-vi-analyzer-linux-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "vidiff": {"label": "VIDiff", "platforms": {"windows": {"wf": "vidiff-windows-container.yml", "inputs": {"head_sha": "{sha}", "base_sha": "{parent}"}}, "linux": {"wf": "vidiff-linux-container.yml", "inputs": {"head_sha": "{sha}", "base_sha": "{parent}"}}}}, "snapshots": {"label": "VI Snapshots", "platforms": {"all": {"wf": "vi-snapshots.yml", "inputs": {"mode": "backfill"}}}}, "unit-tests": {"label": "Unit Tests", "platforms": {"windows": {"wf": "unit-tests-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "antidoc": {"label": "Antidoc", "platforms": {"windows": {"wf": "run-antidoc-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}}}};
     var REPO = "sganjoo/Arrays-Demo";
     var BRANCH = "master";
     var TOK_KEY = "lvci_dispatch_token";
@@ -184,10 +268,16 @@
     // survives the page's auto-refresh until the real status takes over. Entries
     // self-expire so a run that never reports a status can't wedge a fake spinner.
     var QKEY = "lvci_queued_runs";
-    var QTTL = 20*60*1000;   // forget an unconfirmed entry after 20 min
+    var QTTL = 20*60*1000;   // anti-phantom: drop an entry we could NEVER tie to a real run (no run id) after 20 min
+    var QDONE = 5*60*1000;   // after a run finishes OK, keep the cell up to this long while the server result rebuilds
     var QFAST = 60*1000;     // re-check this often while a queued run is unconfirmed
+    var QPOSTTL = 5*60*1000; // how long a fetched queue snapshot stays trustworthy for numbering
     var qReloadArmed = false;
     var qCapturing = {};     // key -> [callbacks] while a run-id lookup is in flight
+    // The REAL place-in-line of every run still waiting for a runner on this repo,
+    // built by qSync from the live Actions API: { runId(str): position(1-based) }.
+    // null until the first fetch; qQueueTotal = how many runs are waiting in all.
+    var qQueuePos = null, qQueueTotal = 0, qQueueAt = 0;
     function qLoad(){ try{ return JSON.parse(localStorage.getItem(QKEY)||"{}")||{}; }catch(e){ return {}; } }
     function qSave(o){ try{ localStorage.setItem(QKEY, JSON.stringify(o)); }catch(e){} }
     function qPaint(td, c, sha){
@@ -204,14 +294,14 @@
     }
     function qPaintFailed(td, c, sha){
       // A run we CONFIRMED failed on GitHub: replace the spinner with a sticky red
-      // "Failed" badge (same button affordance as Queued, so clicking opens the
-      // manage dialog to view the run or dismiss it). Never reverts on its own.
+      // "bang" badge (same button affordance as Queued, so clicking opens the
+      // manage dialog to view the failed run or dismiss it). Never reverts on its own.
       if(!td) return;
       td.classList.add('cidash-queued-cell');
       td.setAttribute('data-qcap', c); td.setAttribute('data-qsha', sha);
       td.innerHTML = '<span class="run-badge cidash-queued cidash-failed" role="button" tabindex="0" '
-        + 'title="This run failed \u2014 click to view it on GitHub or dismiss it">'
-        + '\u2717 Failed</span>';
+        + 'title="This run failed \u2014 click to see the error on GitHub or dismiss it">'
+        + '<span class="cidash-bang" aria-hidden="true">!</span>Failed</span>';
     }
     function qArmReload(){
       // While a queued run is still unconfirmed, reload sooner than the lazy
@@ -222,38 +312,83 @@
     }
     function qLiveEntries(o){
       // The still-queued entries, oldest first - this IS the queue order. A failed
-      // entry is terminal (shown as "Failed") so it is no longer "in line". An
-      // entry stays while inside the optimistic window OR while qSync still sees a
-      // real run active (e.activeAt), so a slow backfill keeps its place.
-      var now = Date.now();
+      // or finished entry is terminal so it is no longer "in line". An entry stays
+      // while we can still reconcile its real run (a captured run id + a token),
+      // while inside the optimistic window, OR while qSync still sees a run active
+      // (e.activeAt), so a run held behind GitHub's concurrency cap keeps its place.
+      var now = Date.now(); var tok = getTok();
       return Object.keys(o)
-        .filter(function(k){ var e=o[k]; return e && !e.failed && ((now-(e.ts||0))<=QTTL || (e.activeAt && (now-e.activeAt)<=QTTL)); })
+        .filter(function(k){ var e=o[k]; if(!e || e.failed || e.done) return false;
+          var hasRun = (e.runs||[]).some(function(r){ return r && r.id; });
+          return (hasRun && tok) || (now-(e.ts||0))<=QTTL || (e.activeAt && (now-e.activeAt)<=QTTL); })
         .map(function(k){ return { key:k, ts:o[k].ts||0 }; })
         .sort(function(a,b){ return a.ts - b.ts; });
     }
     function qRenumber(){
-      // Number the optimistic queued cells by the order they were queued (oldest
-      // = #1) so the user can see each run's place in the line. The chip is hidden
-      // when only one run is queued (a position is only meaningful among several).
-      var o = qLoad(); var live = qLiveEntries(o); var show = live.length > 1;
+      // Stamp each optimistic queued cell with its place in line. Once qSync has
+      // fetched the live queue, use the cell's REAL position there - counting every
+      // run waiting for a runner on this repo, from any activity, push, or person -
+      // so the numbers reflect reality (e.g. #9/#10 when 8 runs are already ahead),
+      // not just how many this browser queued. Before that first fetch (or for a
+      // cell whose run id hasn't been captured yet) fall back to this browser's own
+      // order (oldest = #1). The chip is hidden unless more than one run is in line.
+      var o = qLoad(); var live = qLiveEntries(o);
+      var havePos = !!qQueuePos && (Date.now() - qQueueAt) <= QPOSTTL;
+      var total = havePos ? qQueueTotal : live.length;
+      var show = total > 1;
       live.forEach(function(en, idx){
         var i = en.key.indexOf('|'); var c = en.key.slice(0,i); var sha = en.key.slice(i+1);
         var td = document.querySelector('td.cidash-queued-cell[data-qcap="'+c+'"][data-qsha="'+sha+'"]');
         if(!td) return;
-        var pos = td.querySelector('.cidash-qpos');
-        if(pos) pos.textContent = show ? ('#'+(idx+1)) : '';
+        var posEl = td.querySelector('.cidash-qpos'); if(!posEl) return;
+        var real = 0;
+        if(havePos){
+          // The cell starts when its earliest-in-line platform run starts, so take
+          // the best (lowest) real position among its still-waiting runs.
+          ((o[en.key]||{}).runs||[]).forEach(function(r){
+            var p = r && r.id && qQueuePos[String(r.id)];
+            if(p && (!real || p < real)) real = p;
+          });
+        }
+        var txt = '';
+        if(show){
+          if(real) txt = '#'+real;
+          else if(!havePos) txt = '#'+(idx+1);   // pre-fetch: this browser's own order
+          // else: real queue known but this cell isn't placed yet - leave it blank
+          // until qSync resolves its run id, rather than show a misleading number.
+        }
+        posEl.textContent = txt;
       });
     }
     function markQueued(c, sha, plats, parent, ts){
-      var o = qLoad();
-      o[c+'|'+sha] = { ts: ts || Date.now(), plats: plats||[], parent: parent||'', short: (sha||'').slice(0,7), runs: [] };
-      qSave(o);
-      var a = document.querySelector('a.cidash-run[data-cap="'+c+'"][data-sha="'+sha+'"]');
-      var td = a ? (a.closest ? a.closest('td') : null)
-                 : document.querySelector('td.cidash-queued-cell[data-qcap="'+c+'"][data-qsha="'+sha+'"]');
-      qPaint(td, c, sha);
-      qArmReload();
-      qRenumber();
+      try {
+        var o = qLoad(); var key = c+'|'+sha; var prev = o[key] || {};
+        // Re-marking a cell (e.g. once its dispatch confirms which platforms took)
+        // must NOT wipe a run id already captured for it, so carry runs/ts forward.
+        o[key] = { ts: ts || prev.ts || Date.now(), plats: plats || prev.plats || [], parent: parent || prev.parent || '',
+                   short: (sha||'').slice(0,7), runs: prev.runs || [] };
+        qSave(o);
+      } catch(e){}
+      try {
+        var a = document.querySelector('a.cidash-run[data-cap="'+c+'"][data-sha="'+sha+'"]');
+        var td = a ? (a.closest ? a.closest('td') : null)
+                   : document.querySelector('td.cidash-queued-cell[data-qcap="'+c+'"][data-qsha="'+sha+'"]');
+        if(!td){
+          // Re-run of a cell that already HAS a result: overlay the spinner onto the
+          // result cell and remember its original badge so a failed/cancelled dispatch
+          // can restore it. Same bridge the report viewer's "Re-run" uses (see qSync),
+          // now reachable from the Populate-history dialog's per-activity "Re-run".
+          var rc = document.querySelector('td.cidash-cap-cell[data-cap="'+c+'"][data-sha="'+sha+'"]');
+          if(rc){
+            var oR = qLoad(); var kR = c+'|'+sha;
+            if(oR[kR] && !oR[kR].orig){ oR[kR].orig = rc.innerHTML; qSave(oR); }
+            td = rc;
+          }
+        }
+        qPaint(td, c, sha);
+        qArmReload();
+        qRenumber();
+      } catch(e){}
     }
     function qForget(c, sha){
       // Drop the optimistic entry and restore the cell's run glyph so the cell is
@@ -375,14 +510,16 @@
     function qSync(){
       // Reconcile the optimistic "Queued" overlays against the REAL run status on
       // GitHub so a cell never silently reverts to its run glyph: a run still
-      // queued/running keeps its badge alive (so a long backfill held behind
-      // GitHub's concurrency cap does not hit the 20-min TTL and vanish), a run
-      // that FAILED becomes a sticky "Failed" badge (an early failure may never
-      // post a commit status for the server to render), and a finished run is left
-      // for the server result to take over.
+      // queued/running keeps its badge alive (so a run held behind GitHub's
+      // concurrency cap keeps its badge for as long as it takes), a run that
+      // FAILED becomes a sticky red "bang" badge (an early failure may never post
+      // a commit status for the server to render), and a finished-OK run is marked
+      // done so the server result can take over. Runs are matched by their captured
+      // id and looked up directly when too old to appear in the recent activity
+      // list, so this still works when you come back to the dashboard much later.
       var tok = getTok(); if(!tok) return;
       var o = qLoad();
-      var live = Object.keys(o).filter(function(k){ return o[k] && !o[k].failed; });
+      var live = Object.keys(o).filter(function(k){ return o[k] && !o[k].failed && !o[k].done; });
       if(!live.length) return;
       var snapTs = 0, snapNeedsId = false;
       live.forEach(function(k){
@@ -393,37 +530,78 @@
         var c = k.slice(0, k.indexOf('|')); var sha = k.slice(k.indexOf('|')+1);
         if(c!=='snapshots' && !((o[k].runs||[]).length)) captureRuns(c, sha);
       });
+      // Every run id we still need a verdict on, across all non-terminal entries.
+      var wantIds = {};
+      live.forEach(function(k){ ((o[k]||{}).runs||[]).forEach(function(r){ if(r && r.id) wantIds[r.id]=1; }); });
       fetch('https://api.github.com/repos/'+REPO+'/actions/runs?per_page=100',
         { headers:{ 'Authorization':'Bearer '+tok, 'Accept':'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28' } })
         .then(function(r){ return r.ok ? r.json() : null; })
         .then(function(j){
-          if(!j || !j.workflow_runs) return;
-          var byId = {}; j.workflow_runs.forEach(function(run){ byId[run.id] = run; });
+          var byId = {}; if(j && j.workflow_runs){ j.workflow_runs.forEach(function(run){ byId[run.id] = run; }); }
+          // A run from an earlier session can be too old for the recent list; fetch
+          // those directly by id so a long-finished (or still-queued) run is still
+          // reconciled. Capped so a big backlog can't fan out into many requests.
+          var miss = Object.keys(wantIds).filter(function(id){ return !byId[id]; }).slice(0, 12);
+          return Promise.all(miss.map(function(id){
+            return fetch('https://api.github.com/repos/'+REPO+'/actions/runs/'+id,
+              { headers:{ 'Authorization':'Bearer '+tok, 'Accept':'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28' } })
+              .then(function(r){ return r.ok ? r.json() : null; })
+              .then(function(run){ if(run && run.id) byId[run.id] = run; })
+              .catch(function(){});
+          })).then(function(){ return byId; });
+        })
+        .then(function(byId){
+          if(!byId) return;
+          // Build the REAL repo-wide queue order from the live run list: every run
+          // still WAITING for a runner (not yet in_progress = running) is one slot,
+          // oldest first. This counts runs queued by any activity, push, or person
+          // on this repo - so the user's cells number behind whatever is ahead of
+          // them. (A repo-scoped token can't see OTHER repos sharing the runner
+          // pool, so account-wide contention beyond this repo isn't reflected.)
+          var WAIT = ['queued','requested','waiting','pending'];
+          var inLine = [];
+          Object.keys(byId).forEach(function(id){
+            var run = byId[id];
+            if(run && WAIT.indexOf(run.status) >= 0){
+              inLine.push({ id:String(run.id), at:Date.parse(run.created_at || run.run_started_at || '') || 0 });
+            }
+          });
+          inLine.sort(function(a,b){ return (a.at - b.at) || (a.id < b.id ? -1 : 1); });
+          qQueuePos = {}; inLine.forEach(function(r, i){ qQueuePos[r.id] = i + 1; });
+          qQueueTotal = inLine.length; qQueueAt = Date.now();
           var o2 = qLoad(); var changed = false; var now = Date.now();
           var FAIL = ['failure','timed_out','startup_failure','cancelled'];
           var ACTIVE = ['queued','in_progress','requested','waiting','pending','action_required'];
           Object.keys(o2).forEach(function(key){
-            var e = o2[key]; if(!e || e.failed) return;
+            var e = o2[key]; if(!e || e.failed || e.done) return;
             var ids = (e.runs||[]).map(function(r){ return r.id; }).filter(Boolean);
             if(!ids.length) return;
-            var anyActive = false, anyFail = false, allKnown = true, failUrl = '';
+            var anyActive = false, anyFail = false, allKnown = true, allDone = true, failUrl = '';
             ids.forEach(function(id){
-              var run = byId[id]; if(!run){ allKnown = false; return; }
-              if(ACTIVE.indexOf(run.status) >= 0) anyActive = true;
-              else if(run.status === 'completed' && FAIL.indexOf(run.conclusion) >= 0){ anyFail = true; failUrl = failUrl || run.html_url || ''; }
+              var run = byId[id]; if(!run){ allKnown = false; allDone = false; return; }
+              if(ACTIVE.indexOf(run.status) >= 0){ anyActive = true; allDone = false; }
+              else if(run.status === 'completed'){ if(FAIL.indexOf(run.conclusion) >= 0){ anyFail = true; failUrl = failUrl || run.html_url || ''; } }
+              else { allDone = false; }
             });
             if(anyActive){ e.activeAt = now; changed = true; }
             else if(anyFail && allKnown){ e.failed = { url: failUrl }; changed = true; }
+            else if(allKnown && allDone){ e.done = now; changed = true; }
           });
+          // applyQueued re-numbers as it repaints; otherwise renumber directly so
+          // the freshly fetched real positions are applied even when nothing else
+          // about this browser's entries changed (e.g. only the queue ahead moved).
           if(changed){ qSave(o2); applyQueued(); }
+          else { qRenumber(); }
         }).catch(function(){});
     }
     function applyQueued(){
       // Re-apply remembered queued badges after each (auto-)reload. A confirmed
-      // failure stays a sticky "Failed" badge; an entry whose run is still active
-      // is kept alive by qSync (e.activeAt); otherwise it is dropped once the
-      // server renders a real status or it ages out of the optimistic window.
-      var o = qLoad(); var now = Date.now(); var changed = false; var live = 0;
+      // failure stays a sticky red "bang" badge; a confirmed-finished run hands off
+      // to the server result; an entry whose run we can still reconcile (a captured
+      // run id + a token) is kept alive until it actually finishes, even past the
+      // optimistic window, so a run queued behind GitHub's concurrency cap never
+      // silently vanishes. Entries we could never tie to a real run still age out.
+      var o = qLoad(); var now = Date.now(); var changed = false; var live = 0; var tok = getTok();
       Object.keys(o).forEach(function(key){
         var e = o[key]; var i = key.indexOf('|'); var c = key.slice(0,i); var sha = key.slice(i+1);
         if(!e){ delete o[key]; changed = true; return; }
@@ -439,7 +617,15 @@
           if(ftd){ if(rc && !e.orig){ e.orig = rc.innerHTML; changed = true; } qPaintFailed(ftd, c, sha); }
           return;
         }
-        var alive = (now - (e.ts||0)) <= QTTL || (e.activeAt && (now - e.activeAt) <= QTTL);
+        if(e.done){
+          // The run finished OK - hand off to the server-rendered result: forget as
+          // soon as a real result cell is present, or after a short grace for the
+          // Pages site to rebuild; until then it keeps showing the spinner below.
+          if(rc){ delete o[key]; changed = true; return; }
+          if((now - (e.done||0)) > QDONE){ delete o[key]; changed = true; return; }
+        }
+        var hasRun = (e.runs||[]).some(function(r){ return r && r.id; });
+        var alive = (hasRun && tok) || (now - (e.ts||0)) <= QTTL || (e.activeAt && (now - e.activeAt) <= QTTL);
         if(!alive){ delete o[key]; changed = true; return; }
         if(painted){ live++; }
         else if(a){ qPaint(a.closest('td'), c, sha); live++; }
@@ -750,6 +936,12 @@
       perRev.sort(function(a,b){ return b.order - a.order; });   // oldest first
       var total=perRev.length + (sawSnap?1:0);
       var t0=Date.now(); var ok=0, err=0, done=0;
+      // Paint EVERY targeted cell as "Queued" up front, in one synchronous pass, so
+      // the whole batch lights up the instant you click - independent of the throttled
+      // dispatch chain below. A dispatch that truly fails then reverts just its own
+      // cell, and a thrown error mid-chain can no longer leave the earlier cells un-queued.
+      if(sawSnap){ snapShas.forEach(function(sha){ markQueued('snapshots', sha, ['all'], '', t0); }); }
+      perRev.forEach(function(x){ var d=RT[x.cap]; if(d) markQueued(x.cap, x.sha, Object.keys(d.platforms), x.parent, t0); });
       statusFn('Queuing '+total+' workflow'+(total>1?'s':'')+'\u2026', null);
       var chain=Promise.resolve();
       // 1) Snapshots — one backfill run for the whole history (oldest→newest, deduped).
@@ -757,10 +949,10 @@
         chain=chain.then(function(){
           return dispatchOne('vi-snapshots.yml', { mode:'backfill' }).then(function(r){
             done++;
-            if(r.ok){ ok++; snapShas.forEach(function(sha){ markQueued('snapshots', sha, ['all'], '', t0); }); captureSnapshotRun(t0); }
-            else { err++; if(r.status===401) clearTok(); }
+            if(r.ok){ ok++; captureSnapshotRun(t0); }
+            else { err++; if(r.status===401) clearTok(); snapShas.forEach(function(sha){ qForget('snapshots', sha); }); }
             statusFn('Queuing\u2026 '+done+'/'+total, null);
-          });
+          }).catch(function(){ err++; });
         });
       }
       // 2) Per-revision capabilities, oldest first, gently throttled.
@@ -773,11 +965,12 @@
             done++;
             if(results.some(function(r){return r.status===401;})) clearTok();
             var okPlats=results.filter(function(r){return r.ok;}).map(function(r){return r.plat;});
-            if(okPlats.length){ ok++; markQueued(x.cap, x.sha, okPlats, x.parent, Date.now()); captureRuns(x.cap, x.sha); }
-            else { err++; }
+            if(okPlats.length){ ok++; markQueued(x.cap, x.sha, okPlats, x.parent, t0); captureRuns(x.cap, x.sha); }
+            else { err++; qForget(x.cap, x.sha); }
             statusFn('Queuing\u2026 '+done+'/'+total, null);
-          }).then(function(){ return new Promise(function(res){ setTimeout(res, 650); }); });
-        });
+          });
+        }).catch(function(){ /* one cell's error never aborts the rest */ })
+          .then(function(){ return new Promise(function(res){ setTimeout(res, 650); }); });
       });
       return chain.then(function(){ return { ok:ok, err:err, total:total }; });
     }
@@ -803,7 +996,7 @@
     }
     function bfInit(){
       var c=bfCard(); if(!c) return;
-      var run=document.getElementById('lvci-bf-run'); if(run) run.addEventListener('click', bfRunAll);
+      var run=document.getElementById('lvci-bf-run'); if(run) run.addEventListener('click', function(){ histOpen(); });
       var dis=document.getElementById('lvci-bf-dismiss'); if(dis) dis.addEventListener('click', function(){ bfDismiss(); });
       var save=document.getElementById('lvci-bf-tok-save'); if(save) save.addEventListener('click', function(){ var i=document.getElementById('lvci-bf-tok-input'); var v=(i&&i.value||'').trim(); if(!v){ if(i) i.focus(); return; } setTok(v); bfRunAll(); });
       var inp=document.getElementById('lvci-bf-tok-input'); if(inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); var v=(inp.value||'').trim(); if(v){ setTok(v); bfRunAll(); } } });
@@ -820,14 +1013,26 @@
     // backfill) + the same token and optimistic-queued bridge as every other
     // dispatch on the dashboard.
     var HIST = [{"sha": "76d160d423366cc27d3bdf3274bb68ff458185ed", "short": "76d160d", "msg": "Merge pull request #2 from sganjoo/UploadLVCode"}, {"sha": "ce624e44402b579722ac26f77e4b88ce2981095f", "short": "ce624e4", "msg": "Adding Array example source"}];                        // [{sha, short, msg}] newest-first (project revisions)
-    var HIST_CAPS = [                           // activity rows, in display order
-      ['snapshots',   'VI Snapshots', 'Renders every changed VI (one backfill pass)'],
-      ['vidiff',      'VIDiff',       'Visual diff of the VIs each revision changed'],
-      ['masscompile', 'Mass Compile', 'Compiles the whole project, each revision'],
-      ['vi-analyzer', 'VI Analyzer',  'Runs the VI Analyzer suite, each revision'],
-      ['antidoc',     'Antidoc',      'Generates project documentation, each revision']
-    ];
+    var RAN = {};                     // {cap:1} caps with a result/active run somewhere in history
+    var CAP_META = {                            // label + sub for each known capability
+      'snapshots':   ['VI Snapshots', 'Renders every changed VI (one backfill pass)'],
+      'vidiff':      ['VIDiff',       'Visual diff of the VIs each revision changed'],
+      'masscompile': ['Mass Compile', 'Compiles the whole project, each revision'],
+      'vi-analyzer': ['VI Analyzer',  'Runs the VI Analyzer suite, each revision'],
+      'unit-tests':  ['Unit Tests',   'Runs the unit-test suite, each revision'],
+      'antidoc':     ['Antidoc',      'Generates project documentation, each revision']
+    };
+    var CAP_ORDER = ['snapshots','vidiff','masscompile','vi-analyzer','unit-tests','antidoc'];
     var DIFF_CAPS = { snapshots:1, vidiff:1 };  // the lean "diff-based" subset
+    // The activities offered are exactly the workers THIS repo actually has: any
+    // capability with at least one empty (never-run) cell to fill, plus any that
+    // already has results (shown so the picture is complete - queuing only ever
+    // fills empty cells). Driven by the live table, so a worker that isn't
+    // installed never appears and a newly-added one (e.g. Unit Tests) always does.
+    function histInstalledCaps(){
+      var seen={}; bfCells().forEach(function(x){ seen[x.cap]=1; });
+      return CAP_ORDER.filter(function(c){ return seen[c] || RAN[c]; });
+    }
     function histModal(){ return document.getElementById('cidash-hist-modal'); }
     function cidashHistClose(){ var m=histModal(); if(m) m.style.display='none'; document.body.style.overflow=''; }
     function histStatus(html, kind){
@@ -836,10 +1041,25 @@
       s.style.color=col; s.innerHTML=html||'';
     }
     function histTokPanel(show){ var p=document.getElementById('cidash-hist-tok'); if(p) p.style.display = show ? 'block' : 'none'; }
-    function histSelectedCaps(){
-      var caps={};
-      HIST_CAPS.forEach(function(o){ var b=document.getElementById('cidash-hist-act-'+o[0]); if(b && b.checked && !b.disabled) caps[o[0]]=1; });
-      return caps;
+    var actMode = {};                           // cap -> 'off' | 'fill' | 'rerun' (per-activity choice)
+    function histAllCells(){
+      // EVERY per-revision activity cell on the table, tagged empty (a never-run run
+      // glyph) vs done (a cell that already carries a result). bfCells() sees only the
+      // empty glyphs; gathering the result cells too is what lets this dialog RE-RUN
+      // an activity, not just fill the blanks. Active (queued/running) cells carry no
+      // data attributes and so are skipped - you can't re-queue what's already running.
+      var out=[]; var rows=document.querySelectorAll('tbody tr[data-project]');
+      Array.prototype.forEach.call(rows, function(tr, idx){
+        Array.prototype.forEach.call(tr.querySelectorAll('a.cidash-run'), function(a){
+          out.push({ cap:a.getAttribute('data-cap'), sha:a.getAttribute('data-sha'),
+                     parent:a.getAttribute('data-parent')||'', order:idx, done:false });
+        });
+        Array.prototype.forEach.call(tr.querySelectorAll('td.cidash-cap-cell'), function(td){
+          out.push({ cap:td.getAttribute('data-cap'), sha:td.getAttribute('data-sha'),
+                     parent:td.getAttribute('data-parent')||'', order:idx, done:true });
+        });
+      });
+      return out;
     }
     function histScopeMode(){ var r=document.querySelector('input[name="cidash-hist-scope"]:checked'); return r ? r.value : 'all'; }
     function histIdx(sha){ for(var i=0;i<HIST.length;i++){ if(HIST[i].sha===sha) return i; } return -1; }
@@ -874,44 +1094,126 @@
       var sw=document.getElementById('cidash-hist-specwrap'); if(sw) sw.style.display = (mode==='specific') ? '' : 'none';
     }
     function histCells(){
-      var caps=histSelectedCaps(); var inc=histIncludedShas();
-      return bfCells().filter(function(x){ return caps[x.cap] && inc[x.sha] && !(x.cap==='vidiff' && !x.parent); });
+      // The exact cells to dispatch, from each activity's mode + the revision scope:
+      //   off    -> nothing
+      //   fill   -> only the empty (never-run) cells          (the old default)
+      //   rerun  -> empty AND already-done cells: fill gaps and replace existing results
+      // Snapshots is content-addressed: its one backfill run only ever renders the
+      // MISSING blobs, so it has no meaningful "re-run" \u2014 it always behaves as fill.
+      var inc=histIncludedShas(); var out=[];
+      histAllCells().forEach(function(x){
+        if(!inc[x.sha]) return;
+        var mode=actMode[x.cap]||'off'; if(mode==='off') return;
+        if(x.cap==='vidiff' && !x.parent) return;        // a root commit has no base to diff
+        if(x.cap==='snapshots'){ if(!x.done) out.push(x); return; }
+        if(mode==='fill' && x.done) return;              // fill leaves finished cells alone
+        out.push(x);
+      });
+      return out;
+    }
+    function histCounts(){
+      // Per-cap {fill, done} tally within the current revision scope \u2014 drives each
+      // row's count hint and which segment buttons are live.
+      var inc=histIncludedShas(); var by={};
+      histAllCells().forEach(function(x){
+        if(!inc[x.sha]) return;
+        if(x.cap==='vidiff' && !x.parent) return;
+        var c=by[x.cap]||(by[x.cap]={fill:0,done:0});
+        if(x.done) c.done++; else c.fill++;
+      });
+      return by;
+    }
+    function histCountText(cap, c){
+      if(cap==='snapshots'){ return c.fill>0 ? (c.fill+' to render') : 'up to date'; }
+      if(c.fill>0 && c.done>0) return c.fill+' missing \u00b7 '+c.done+' done';
+      if(c.fill>0) return c.fill+' to fill';
+      if(c.done>0) return 'all '+c.done+' done';
+      return 'none in scope';
+    }
+    function histClampMode(cap, mode, c){
+      // The mode actually SHOWN for an activity in the current revision scope.
+      // actMode keeps the user's raw INTENT; this reduces it to a mode that can
+      // queue at least one run, so the highlighted segment is never also disabled
+      // (the old cause of a lit-but-greyed "Re-run"). Widening the scope later can
+      // re-enable the original intent because actMode itself is left untouched.
+      //   snapshots -> only ever fills the missing renders (content-addressed)
+      //   fill      -> needs a missing cell, else there is nothing to fill (Skip)
+      //   rerun     -> every selected revision with this activity; existing results
+      //                are replaced and missing cells are filled
+      if(mode==='off') return 'off';
+      if(cap==='snapshots') return c.fill>0 ? 'fill' : 'off';
+      if(mode==='rerun')    return (c.done>0 || c.fill>0) ? 'rerun' : 'off';
+      return c.fill>0 ? 'fill' : 'off';
     }
     function histRefresh(){
-      // Live summary of what will be queued from the current selection.
+      // Recompute everything that depends on the current selection: each row's count
+      // hint + segment availability + active state, then the summary and Queue button.
+      var counts=histCounts();
+      histInstalledCaps().forEach(function(cap){
+        var c=counts[cap]||{fill:0,done:0};
+        // Clamp the stored intent to a runnable mode for the highlight + skip
+        // dimming; dispatch (histCells) naturally agrees with it.
+        var mode=histClampMode(cap, actMode[cap]||'off', c);
+        var chip=document.getElementById('cidash-hist-count-'+cap); if(chip) chip.textContent=histCountText(cap, c);
+        var seg=document.getElementById('cidash-hist-seg-'+cap);
+        if(seg){
+          // A segment is disabled only when it would queue nothing, and always
+          // carries a tooltip saying why (answering "why is Re-run greyed out?").
+          var bFill=seg.querySelector('button[data-mode="fill"]');
+          if(bFill){ bFill.disabled=(c.fill===0);
+            bFill.title=(c.fill>0 ? (cap==='snapshots'?'Render the snapshots still missing in the selected revisions':'Queue only the selected revisions missing this result')
+                                  : (cap==='snapshots'?'Nothing to render \u2014 every selected revision already has its snapshots':'Nothing to fill \u2014 every selected revision already has this result')); }
+          var bRe=seg.querySelector('button[data-mode="rerun"]');
+          if(bRe){ bRe.disabled=((c.done||0)+(c.fill||0)===0);
+            bRe.title=((c.done||0)+(c.fill||0)>0 ? 'Run every selected revision for this activity; existing results are replaced and missing ones are filled'
+                                               : 'Nothing to re-run \u2014 no selected revisions have this activity'); }
+          Array.prototype.forEach.call(seg.querySelectorAll('button'), function(b){ b.classList.toggle('on', b.getAttribute('data-mode')===mode); });
+        }
+        var row=document.getElementById('cidash-hist-actrow-'+cap); if(row) row.classList.toggle('skip', mode==='off');
+      });
       var cells=histCells();
-      var shas={}; var snaps=0; var perRev=0;
-      cells.forEach(function(x){ shas[x.sha]=1; if(x.cap==='snapshots') snaps=1; else perRev++; });
+      var shas={}; var snaps=0; var perRev=0; var anyRe=false;
+      cells.forEach(function(x){ shas[x.sha]=1; if(x.cap==='snapshots') snaps=1; else perRev++; if(x.done) anyRe=true; });
       var runs=perRev + snaps;   // snapshots collapse into one backfill run
       var nrev=Object.keys(shas).length;
       var sum=document.getElementById('cidash-hist-summary');
       if(sum){
         if(!HIST.length){ sum.innerHTML='No project revisions to populate yet \u2014 commit some VIs first.'; }
-        else if(!runs){ sum.innerHTML='Nothing to queue \u2014 the selected revisions already have results for those activities.'; }
-        else { sum.innerHTML='Will queue <b>'+runs+'</b> run'+(runs>1?'s':'')+' across <b>'+nrev+'</b> revision'+(nrev>1?'s':'')+', oldest first.'; }
+        else if(!runs){
+          var anyOn=histInstalledCaps().some(function(c){ return (actMode[c]||'off')!=='off'; });
+          var canRe=histInstalledCaps().some(function(c){ var cc=counts[c]||{}; return c!=='snapshots' && (actMode[c]||'off')==='fill' && (cc.done||0)>0; });
+          if(canRe){ sum.innerHTML='Nothing to fill \u2014 the selected revisions already have these results. Switch an activity to <b>Re-run</b> to rebuild them.'; }
+          else if(anyOn){ sum.innerHTML='Nothing to queue for the selected revisions and activities.'; }
+          else { sum.innerHTML='Pick at least one activity below \u2014 every one is set to <b>Skip</b>.'; }
+        } else {
+          sum.innerHTML='Will queue <b>'+runs+'</b> run'+(runs>1?'s':'')+' across <b>'+nrev+'</b> revision'+(nrev>1?'s':'')+', oldest first.'
+            + (anyRe?' <span style="color:var(--fg-muted)">Re-runs replace the existing result.</span>':'')
+            + (runs>=20?' <span style="color:var(--fg-muted)">They queue and run in order, paced by your concurrency limit.</span>':'');
+        }
       }
       var go=document.getElementById('cidash-hist-go'); if(go) go.disabled = !runs;
     }
-    function histDiffApply(){
-      // The diff-based toggle constrains the run to Snapshots + VIDiff: when it is
-      // ON, Mass Compile + VI Analyzer are unchecked and greyed out; turning it OFF
-      // re-checks + re-enables them (its label promises "uncheck to also run" them).
-      // Only invoked from the toggle itself, so manually unchecking an activity
-      // afterwards is never overridden by a summary refresh.
-      var diff=document.getElementById('cidash-hist-diff');
-      var on = !!(diff && diff.checked);
-      HIST_CAPS.forEach(function(o){
-        if(DIFF_CAPS[o[0]]) return;
-        var b=document.getElementById('cidash-hist-act-'+o[0]);
-        var row=document.getElementById('cidash-hist-actrow-'+o[0]);
-        if(b){ b.disabled=on; b.checked=!on; }
-        if(row) row.classList.toggle('disabled', on);
+    function histSetMode(cap, mode){
+      if(cap==='snapshots' && mode==='rerun') mode='fill';   // snapshots only ever backfills gaps
+      actMode[cap]=mode; histRefresh();
+    }
+    function histPreset(kind){
+      // The quick chips \u2014 each just sets every row's mode, then the user fine-tunes.
+      // "new" and "diff" reproduce the old global "only workers that haven't run yet"
+      // and "diff-based" toggles, now as one-click starting points over per-row control.
+      histInstalledCaps().forEach(function(cap){
+        if(kind==='fill') actMode[cap]='fill';
+        else if(kind==='rerun') actMode[cap]=(cap==='snapshots'?'fill':'rerun');
+        else if(kind==='clear') actMode[cap]='off';
+        else if(kind==='diff') actMode[cap]=DIFF_CAPS[cap]?'fill':'off';
+        else if(kind==='new') actMode[cap]=RAN[cap]?'off':'fill';
       });
+      histRefresh();
     }
     function histRender(){
       var body=document.getElementById('cidash-hist-body'); if(!body) return;
       var h='';
-      h += '<p style="margin:0 0 16px;color:var(--fg-muted);font-size:.86em;line-height:1.55">Queue CI for revisions that already exist so the dashboard fills in. Runs <strong>oldest \u2192 newest</strong>; only activities that haven\u2019t run yet are queued, and VI Snapshots backfills the whole history in one incremental pass.</p>';
+      h += '<p class="cidash-hist-intro">Queue CI for revisions that already exist so the dashboard fills in. Runs <strong>oldest \u2192 newest</strong>. For each activity, choose to <b>Fill</b> only the missing results or <b>Re-run</b> every selected revision.</p>';
       var optsHtml = HIST.map(function(r){ return '<option value="'+esc(r.sha)+'">'+esc((r.short||'')+(r.msg?(' \u2014 '+r.msg):''))+'</option>'; }).join('');
       h += '<div class="cidash-hist-sec"><label class="cidash-hist-lbl">Which revisions</label><div class="cidash-hist-scope">';
       h += '<label class="cidash-hist-radio"><input type="radio" name="cidash-hist-scope" value="all" checked> All '+HIST.length+' revision'+(HIST.length===1?'':'s')+' <span class="sub">\u2014 the full history</span></label>';
@@ -927,13 +1229,30 @@
       HIST.forEach(function(r){ h += '<label class="cidash-hist-specitem"><input type="checkbox" class="cidash-hist-spec" value="'+esc(r.sha)+'"><span class="sh">'+esc(r.short||'')+'</span><span class="ms">'+esc(r.msg||'')+'</span></label>'; });
       h += '</div></div>';
       h += '</div></div>';
-      h += '<div class="cidash-hist-sec"><label class="cidash-hist-toggle"><input type="checkbox" id="cidash-hist-diff" checked>'
-        + '<span><span class="cidash-hist-tmain">Diff-based \u2014 modified files only</span>'
-        + '<span class="cidash-hist-tsub">Runs just VI Snapshots and VIDiff (the visual history of what each revision changed). Uncheck to also run Mass Compile and VI Analyzer on every revision.</span></span></label></div>';
-      h += '<div class="cidash-hist-sec"><label class="cidash-hist-lbl">Activities</label><div class="cidash-hist-acts">';
-      HIST_CAPS.forEach(function(o){
-        h += '<label class="cidash-hist-act" id="cidash-hist-actrow-'+o[0]+'"><input type="checkbox" id="cidash-hist-act-'+o[0]+'" data-cap="'+o[0]+'" checked>'
-          + '<span>'+esc(o[1])+'</span><span class="cidash-hist-actsub">'+esc(o[2])+'</span></label>';
+      var instCaps=histInstalledCaps();
+      h += '<div class="cidash-hist-sec"><div class="cidash-hist-actshead"><label class="cidash-hist-lbl" style="margin:0">Activities</label>';
+      if(instCaps.length){
+        h += '<div class="cidash-hist-quick">'
+          + '<button type="button" class="cidash-hist-chip" data-preset="fill" title="Queue every missing result; leave finished revisions alone">Fill gaps</button>'
+          + '<button type="button" class="cidash-hist-chip" data-preset="rerun" title="Re-run every selected revision, replacing existing results">Re-run all</button>'
+          + '<button type="button" class="cidash-hist-chip" data-preset="new" title="Only activities that have never run anywhere \u2014 skip ones that already have any results">New only</button>'
+          + '<button type="button" class="cidash-hist-chip" data-preset="diff" title="Just the visual history \u2014 VI Snapshots + VIDiff">Diff only</button>'
+          + '<button type="button" class="cidash-hist-chip" data-preset="clear" title="Set every activity to Skip">Clear</button>'
+          + '</div>';
+      }
+      h += '</div><div class="cidash-hist-acts">';
+      if(!instCaps.length){
+        h += '<div class="cidash-hist-actsempty">No runnable activities found for this repository.</div>';
+      } else instCaps.forEach(function(cap){
+        var m=CAP_META[cap]||[cap,'']; var isSnap=(cap==='snapshots');
+        h += '<div class="cidash-hist-act" id="cidash-hist-actrow-'+cap+'">'
+          + '<div class="cidash-hist-actinfo"><div class="cidash-hist-actname">'+esc(m[0])+'</div><div class="cidash-hist-actsub">'+esc(m[1])+'</div></div>'
+          + '<span class="cidash-hist-actcount" id="cidash-hist-count-'+cap+'"></span>'
+          + '<span class="cidash-seg" id="cidash-hist-seg-'+cap+'" role="group" aria-label="'+esc(m[0])+' mode">'
+          + '<button type="button" data-cap="'+cap+'" data-mode="off">Skip</button>'
+          + '<button type="button" data-cap="'+cap+'" data-mode="fill">'+(isSnap?'Render':'Fill')+'</button>'
+          + (isSnap?'':'<button type="button" data-cap="'+cap+'" data-mode="rerun">Re-run</button>')
+          + '</span></div>';
       });
       h += '</div></div>';
       h += '<div id="cidash-hist-tok" style="display:none;border:1px solid var(--border);border-radius:8px;padding:12px;background:var(--surface);margin:0 0 12px">';
@@ -951,19 +1270,20 @@
       h += '<button class="cidash-btn cidash-go" id="cidash-hist-go">\u25B6 Queue runs</button>';
       h += '<button class="cidash-btn cidash-ghost" id="cidash-hist-cancel">Cancel</button></div>';
       body.innerHTML=h;
-      var diff=document.getElementById('cidash-hist-diff'); if(diff) diff.addEventListener('change', function(){ histDiffApply(); histRefresh(); });
+      instCaps.forEach(function(cap){ actMode[cap]='fill'; });   // open with every activity on Fill (gaps only)
+      Array.prototype.forEach.call(document.querySelectorAll('.cidash-hist-chip'), function(b){ b.addEventListener('click', function(){ histPreset(b.getAttribute('data-preset')); }); });
+      Array.prototype.forEach.call(document.querySelectorAll('.cidash-seg button'), function(b){ b.addEventListener('click', function(){ if(b.disabled) return; histSetMode(b.getAttribute('data-cap'), b.getAttribute('data-mode')); }); });
       Array.prototype.forEach.call(document.querySelectorAll('input[name="cidash-hist-scope"]'), function(r){ r.addEventListener('change', function(){ histScopeApply(); histRefresh(); }); });
       var hf=document.getElementById('cidash-hist-from'); if(hf) hf.addEventListener('change', histRefresh);
       var ht=document.getElementById('cidash-hist-to'); if(ht) ht.addEventListener('change', histRefresh);
       Array.prototype.forEach.call(document.querySelectorAll('input.cidash-hist-spec'), function(b){ b.addEventListener('change', histRefresh); });
       var spa=document.getElementById('cidash-hist-spec-all'); if(spa) spa.addEventListener('click', function(e){ e.preventDefault(); Array.prototype.forEach.call(document.querySelectorAll('input.cidash-hist-spec'), function(b){ b.checked=true; }); histRefresh(); });
       var spn=document.getElementById('cidash-hist-spec-none'); if(spn) spn.addEventListener('click', function(e){ e.preventDefault(); Array.prototype.forEach.call(document.querySelectorAll('input.cidash-hist-spec'), function(b){ b.checked=false; }); histRefresh(); });
-      HIST_CAPS.forEach(function(o){ var b=document.getElementById('cidash-hist-act-'+o[0]); if(b) b.addEventListener('change', histRefresh); });
       var go=document.getElementById('cidash-hist-go'); if(go) go.addEventListener('click', histRun);
       var cancel=document.getElementById('cidash-hist-cancel'); if(cancel) cancel.addEventListener('click', cidashHistClose);
       var save=document.getElementById('cidash-hist-tok-save'); if(save) save.addEventListener('click', function(){ var i=document.getElementById('cidash-hist-tok-input'); var v=(i&&i.value||'').trim(); if(!v){ if(i) i.focus(); return; } setTok(v); histTokPanel(false); histRun(); });
       var tin=document.getElementById('cidash-hist-tok-input'); if(tin) tin.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); var v=(tin.value||'').trim(); if(v){ setTok(v); histTokPanel(false); histRun(); } } });
-      histScopeApply(); histDiffApply(); histRefresh();
+      histScopeApply(); histRefresh();
     }
     function histOpen(){
       var m=histModal(); if(!m) return;
@@ -980,8 +1300,12 @@
       dispatchCells(cells, histStatus).then(function(res){
         if(cancel) cancel.disabled=false;
         if(res.ok && !res.err){
-          histStatus('\u2713 Queued '+res.ok+' run'+(res.ok>1?'s':'')+', oldest first \u2014 results appear on the dashboard as they finish. <a href="https://github.com/'+REPO+'/actions" target="_blank" rel="noopener" style="color:var(--link)">View runs \u2197</a>', 'ok');
+          histStatus('\u2713 Queued '+res.ok+' run'+(res.ok>1?'s':'')+', oldest first \u2014 watch them fill in on the dashboard\u2026', 'ok');
           bfDismiss();   // the fresh-install nudge has served its purpose
+          // Close the dialog so the just-queued cells - already showing "Queued" on
+          // the table behind it - are revealed; the user asked to land on the
+          // dashboard after queuing. A brief pause lets the confirmation register.
+          setTimeout(cidashHistClose, 900);
         } else if(res.ok && res.err){
           if(go) go.disabled=false;
           histStatus('Queued '+res.ok+', but '+res.err+' could not be dispatched \u2014 check the token has <strong>Actions: Read and write</strong> on this repo. <a href="https://github.com/'+REPO+'/actions" target="_blank" rel="noopener" style="color:var(--link)">View runs \u2197</a>', 'warn');
@@ -994,23 +1318,47 @@
     }
     // Exposed for the shared header's "Populate history" menu item.
     window.lvciRunHistory = histOpen;
+    // Exposed because the modal's "× Close" button and backdrop use inline onclick
+    // handlers, which resolve against window — not this IIFE's scope. Without this
+    // the close button silently did nothing (the Cancel button and Esc, which call
+    // the inner function directly, were unaffected).
+    window.cidashHistClose = cidashHistClose;
     document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ var m=histModal(); if(m && m.style.display==='block') cidashHistClose(); } });
     // Re-apply optimistic "Queued" badges once the table exists (this script runs
     // before the table is parsed), and after every auto-refresh thereafter; wire
     // the backfill card the same way.
     if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', function(){ applyQueued(); qSync(); bfInit(); }); }
     else { applyQueued(); qSync(); bfInit(); }
+    // Returning to the dashboard after kicking off a run elsewhere (e.g. "Re-run
+    // analysis" from a report, or a run started in another tab) should reflect it
+    // right away. The page otherwise only updates on its auto-refresh timer (up to
+    // 15 min when idle), so re-apply the optimistic "Queued" overlays and re-sync
+    // against GitHub whenever the tab is shown again or regains focus (throttled).
+    var _qReChk = 0;
+    function qRecheck(){ var n = Date.now(); if(n - _qReChk < 4000) return; _qReChk = n; try{ applyQueued(); qSync(); }catch(e){} }
+    document.addEventListener('visibilitychange', function(){ if(!document.hidden) qRecheck(); });
+    window.addEventListener('focus', qRecheck);
   })();
   </script>
   <main class="lvci-main">
   <h1>CI Dashboard — Arrays-Demo</h1>
-  <div class="sub">Last updated: 2026-06-22 12:48 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
+  <div class="sub">Last updated: 2026-06-22 15:52 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
   <div class="nav">
     <a href="https://github.com/sganjoo/Arrays-Demo">GitHub</a>
     <a href="https://github.com/sganjoo/Arrays-Demo/actions">Actions</a>
   </div>
-  <div id="lvci-backfill" class="lvci-backfill" role="region" aria-label="Run CI for existing history" style="display:none"><div class="lvci-bf-main"><div class="lvci-bf-icon" aria-hidden="true">&#9889;</div><div class="lvci-bf-text"><strong>Populate the dashboard with your history</strong><span>This dashboard has no results yet. Queue CI for all <b id="lvci-bf-count"></b> revisions in one click &mdash; processed <b>oldest&nbsp;&rarr;&nbsp;newest</b> so snapshots and diffs build on one another with no duplicated work. <a href="#" id="lvci-bf-custom" style="color:var(--link)">Choose activities or where to start&hellip;</a></span><span class="lvci-bf-note">This repository is currently set to run up to <b>5</b> CI jobs at a time. Anything past that &mdash; or past your GitHub account&rsquo;s own concurrency limit &mdash; just waits its turn and runs in order, so it&rsquo;s safe to queue the whole history at once.</span><details class="lvci-bf-info"><summary>&#9432; How concurrency works</summary><div class="lvci-bf-infobody">GitHub caps how many CI jobs run at the same time <b>per account</b> &mdash; shared across every repository you own (for example 20 jobs on Free, 40 on Pro), not per repo. This repository adds its own limit, <b>Max concurrent runners = 5</b>, so a large history backfill paces itself instead of monopolising your account&rsquo;s runners; routine pushes and tooling updates draw from the same pool. Runs beyond the limit are queued and start automatically as earlier ones finish &mdash; nothing is lost.<a href="#" class="lvci-bf-cfg" onclick="lvciOpen(&#39;configure.html?repo=sganjoo/Arrays-Demo&#39;,&#39;Configure Workers&#39;);return false;">Change this for Arrays-Demo &rarr;</a></div></details></div><div class="lvci-bf-actions"><button type="button" id="lvci-bf-run" class="cidash-btn cidash-go">&#9654; Run all history</button><button type="button" id="lvci-bf-dismiss" class="cidash-btn cidash-ghost">Dismiss</button></div></div><div id="lvci-bf-tok" class="lvci-bf-tok" style="display:none">Paste a token with <strong>Actions: Read and write</strong> on this repository &mdash; the same token you set the dashboard up with works here too, or <a id="lvci-bf-tok-link" target="_blank" rel="noopener" style="color:var(--link)">create one &#8599;</a>.<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:7px"><input id="lvci-bf-tok-input" type="password" autocomplete="off" placeholder="github_pat_&hellip; or ghp_&hellip;" style="flex:1 1 240px;min-width:180px;padding:7px 10px;background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:.8em"><button type="button" id="lvci-bf-tok-save" class="cidash-btn cidash-go">Save &amp; run</button></div></div><div id="lvci-bf-status" class="lvci-bf-status" role="status" aria-live="polite"></div></div>
+  <div id="lvci-backfill" class="lvci-backfill" role="region" aria-label="Run CI for existing history" style="display:none"><div class="lvci-bf-main"><div class="lvci-bf-icon" aria-hidden="true">&#9889;</div><div class="lvci-bf-text"><strong>Populate the dashboard with your history</strong><span>This dashboard has no results yet. Populate it with CI for all <b id="lvci-bf-count"></b> revisions &mdash; processed <b>oldest&nbsp;&rarr;&nbsp;newest</b> so snapshots and diffs build on one another with no duplicated work. The button opens a <a href="#" id="lvci-bf-custom" style="color:var(--link)">chooser</a> where you pick what to run &mdash; nothing starts until you confirm.</span><span class="lvci-bf-note">This repository is currently set to run up to <b>5</b> CI jobs at a time. Anything past that &mdash; or past your GitHub account&rsquo;s own concurrency limit &mdash; just waits its turn and runs in order, so it&rsquo;s safe to queue the whole history at once.</span><details class="lvci-bf-info"><summary>&#9432; How concurrency works</summary><div class="lvci-bf-infobody">GitHub caps how many CI jobs run at the same time <b>per account</b> &mdash; shared across every repository you own (for example 20 jobs on Free, 40 on Pro), not per repo. This repository adds its own limit, <b>Max concurrent runners = 5</b>, so a large history backfill paces itself instead of monopolising your account&rsquo;s runners; routine pushes and tooling updates draw from the same pool. Runs beyond the limit are queued and start automatically as earlier ones finish &mdash; nothing is lost.<a href="#" class="lvci-bf-cfg" onclick="lvciOpen(&#39;configure.html?repo=sganjoo/Arrays-Demo&#39;,&#39;Configure Workers&#39;);return false;">Change this for Arrays-Demo &rarr;</a></div></details></div><div class="lvci-bf-actions"><button type="button" id="lvci-bf-run" class="cidash-btn cidash-go">&#9654; Populate history&hellip;</button><button type="button" id="lvci-bf-dismiss" class="cidash-btn cidash-ghost">Dismiss</button></div></div><div id="lvci-bf-tok" class="lvci-bf-tok" style="display:none">Paste a token with <strong>Actions: Read and write</strong> on this repository &mdash; the same token you set the dashboard up with works here too, or <a id="lvci-bf-tok-link" target="_blank" rel="noopener" style="color:var(--link)">create one &#8599;</a>.<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:7px"><input id="lvci-bf-tok-input" type="password" autocomplete="off" placeholder="github_pat_&hellip; or ghp_&hellip;" style="flex:1 1 240px;min-width:180px;padding:7px 10px;background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:.8em"><button type="button" id="lvci-bf-tok-save" class="cidash-btn cidash-go">Save &amp; run</button></div></div><div id="lvci-bf-status" class="lvci-bf-status" role="status" aria-live="polite"></div></div>
   <div class="controls">
+    <div class="cidash-search">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M10.68 11.74a6 6 0 1 1 1.06-1.06l3.04 3.04a.75.75 0 1 1-1.06 1.06ZM12 7a5 5 0 1 0-10 0 5 5 0 0 0 10 0Z"/></svg>
+      <input id="cidash-search" type="search" autocomplete="off" placeholder="Filter revisions, authors, SHAs...">
+    </div>
+    <div class="cidash-segfilter" id="cidash-statusfilter" role="group" aria-label="Filter by status">
+      <button type="button" class="on" data-status="all">All</button>
+      <button type="button" data-status="fail">Failed</button>
+      <button type="button" data-status="running">Running</button>
+      <button type="button" data-status="pass">Passed</button>
+    </div>
     <label class="cidash-check" for="show-nonproject">
       <input type="checkbox" id="show-nonproject">
       Include CI-only revisions
@@ -1024,7 +1372,7 @@
   <table id="cidash-table">
     <thead>
       <tr>
-        <th>Commit</th><th>Message</th><th>Author</th><th>Date</th>
+        <th>Revision</th>
         <th style="text-align:center">Mass Compile</th>
         <th style="text-align:center">VI Analyzer</th>
         <th style="text-align:center">VIDiff</th>
@@ -1035,12 +1383,15 @@
     </thead>
     <tbody>
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5d264869988919cd3fd048daeaa68e67859e77f5" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">5d26486</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(269,42%,45%)" title="Sumedha Ganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=006cc25b0b1814d1a584926ce315002d356d72b7" class="cidash-rev-msg" title="Add LabVIEW CI pipeline">Add LabVIEW CI pipeline</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=006cc25b0b1814d1a584926ce315002d356d72b7" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">006cc25</a><span class="cidash-rev-dot">&middot;</span>Sumedha Ganjoo<span class="cidash-rev-dot">&middot;</span>2026-06-22</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Add LabVIEW CI pipeline"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5d264869988919cd3fd048daeaa68e67859e77f5" style="color:var(--fg)">Add LabVIEW CI pipeline</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">Sumedha Ganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2026-06-18</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1050,12 +1401,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=9df70fe39b86abbf51f48c21a631d98c15fc879a" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">9df70fe</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(269,42%,45%)" title="Sumedha Ganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5d264869988919cd3fd048daeaa68e67859e77f5" class="cidash-rev-msg" title="Add LabVIEW CI pipeline">Add LabVIEW CI pipeline</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5d264869988919cd3fd048daeaa68e67859e77f5" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">5d26486</a><span class="cidash-rev-dot">&middot;</span>Sumedha Ganjoo<span class="cidash-rev-dot">&middot;</span>2026-06-18</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Changed to use the LV2018Win764bit agent"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=9df70fe39b86abbf51f48c21a631d98c15fc879a" style="color:var(--fg)">Changed to use the LV2018Win764bit agent</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-16</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1065,12 +1419,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=0b3cfe72999d967285e461c03a601b8e24206187" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">0b3cfe7</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=9df70fe39b86abbf51f48c21a631d98c15fc879a" class="cidash-rev-msg" title="Changed to use the LV2018Win764bit agent">Changed to use the LV2018Win764bit agent</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=9df70fe39b86abbf51f48c21a631d98c15fc879a" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">9df70fe</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-16</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Changing read me"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=0b3cfe72999d967285e461c03a601b8e24206187" style="color:var(--fg)">Changing read me</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-16</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1080,12 +1437,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=c67c7aa84eafb3ca51adc3cb8228946b032c6a25" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">c67c7aa</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=0b3cfe72999d967285e461c03a601b8e24206187" class="cidash-rev-msg" title="Changing read me">Changing read me</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=0b3cfe72999d967285e461c03a601b8e24206187" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">0b3cfe7</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-16</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Merge pull request #5 from sganjoo/BuildScriptForPipeline"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=c67c7aa84eafb3ca51adc3cb8228946b032c6a25" style="color:var(--fg)">Merge pull request #5 from sganjoo/BuildScriptForPipeline</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-16</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1095,12 +1455,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=dfae8c4b234c1c061aaed6d9f7b393f73a21e928" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">dfae8c4</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=c67c7aa84eafb3ca51adc3cb8228946b032c6a25" class="cidash-rev-msg" title="Merge pull request #5 from sganjoo/BuildScriptForPipeline">Merge pull request #5 from sganjoo/BuildScriptForPipeline</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=c67c7aa84eafb3ca51adc3cb8228946b032c6a25" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">c67c7aa</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-16</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="changing pipeline to look for build.bat under scripts folder"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=dfae8c4b234c1c061aaed6d9f7b393f73a21e928" style="color:var(--fg)">changing pipeline to look for build.bat under scripts folder</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-16</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1110,12 +1473,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=a014d055fa90f94ad05b2c5f7aa0f6591c10a7ae" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">a014d05</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=dfae8c4b234c1c061aaed6d9f7b393f73a21e928" class="cidash-rev-msg" title="changing pipeline to look for build.bat under scripts folder">changing pipeline to look for build.bat under scripts folder</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=dfae8c4b234c1c061aaed6d9f7b393f73a21e928" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">dfae8c4</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-16</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Moving build.bat to a script folder"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=a014d055fa90f94ad05b2c5f7aa0f6591c10a7ae" style="color:var(--fg)">Moving build.bat to a script folder</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-16</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1125,12 +1491,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ee46dfa7e6b4f01dc5f6c78fb9a498ee49d824b2" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">ee46dfa</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=a014d055fa90f94ad05b2c5f7aa0f6591c10a7ae" class="cidash-rev-msg" title="Moving build.bat to a script folder">Moving build.bat to a script folder</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=a014d055fa90f94ad05b2c5f7aa0f6591c10a7ae" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">a014d05</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-16</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Changing pipeline to pick build.bat from source instead of specific location"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ee46dfa7e6b4f01dc5f6c78fb9a498ee49d824b2" style="color:var(--fg)">Changing pipeline to pick build.bat from source instead of specific location</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-16</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1140,12 +1509,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d640d65f018a8b97333ee915eafcfc16239d3bcb" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">d640d65</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ee46dfa7e6b4f01dc5f6c78fb9a498ee49d824b2" class="cidash-rev-msg" title="Changing pipeline to pick build.bat from source instead of specific location">Changing pipeline to pick build.bat from source instead of specific location</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ee46dfa7e6b4f01dc5f6c78fb9a498ee49d824b2" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">ee46dfa</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-16</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Add build batch file to repo so it can be called from GitHub"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d640d65f018a8b97333ee915eafcfc16239d3bcb" style="color:var(--fg)">Add build batch file to repo so it can be called from GitHub</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-16</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1155,12 +1527,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=7db1cc17e240a6a5aaf5625e84a9ef3e562a93f8" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">7db1cc1</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d640d65f018a8b97333ee915eafcfc16239d3bcb" class="cidash-rev-msg" title="Add build batch file to repo so it can be called from GitHub">Add build batch file to repo so it can be called from GitHub</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d640d65f018a8b97333ee915eafcfc16239d3bcb" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">d640d65</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-16</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="changing back to build script"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=7db1cc17e240a6a5aaf5625e84a9ef3e562a93f8" style="color:var(--fg)">changing back to build script</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-16</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1170,12 +1545,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=f175235134c068f5b3b805f96c397851f2bf56b2" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">f175235</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=7db1cc17e240a6a5aaf5625e84a9ef3e562a93f8" class="cidash-rev-msg" title="changing back to build script">changing back to build script</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=7db1cc17e240a6a5aaf5625e84a9ef3e562a93f8" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">7db1cc1</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-16</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Added Jenkinsfile"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=f175235134c068f5b3b805f96c397851f2bf56b2" style="color:var(--fg)">Added Jenkinsfile</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-15</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1185,12 +1563,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=02943650c2be50d1354933ec8bc47a40a1dd169e" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">0294365</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=f175235134c068f5b3b805f96c397851f2bf56b2" class="cidash-rev-msg" title="Added Jenkinsfile">Added Jenkinsfile</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=f175235134c068f5b3b805f96c397851f2bf56b2" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">f175235</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-15</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="testing workspace env"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=02943650c2be50d1354933ec8bc47a40a1dd169e" style="color:var(--fg)">testing workspace env</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-15</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1200,12 +1581,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=08cc82196b45453218b4b8c21f64c6df7dab6c31" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">08cc821</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=02943650c2be50d1354933ec8bc47a40a1dd169e" class="cidash-rev-msg" title="testing workspace env">testing workspace env</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=02943650c2be50d1354933ec8bc47a40a1dd169e" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">0294365</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-15</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="use non for pipeline agent"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=08cc82196b45453218b4b8c21f64c6df7dab6c31" style="color:var(--fg)">use non for pipeline agent</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-15</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1215,12 +1599,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=a85adca347f772df499a4af03279d274d651c24a" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">a85adca</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=08cc82196b45453218b4b8c21f64c6df7dab6c31" class="cidash-rev-msg" title="use non for pipeline agent">use non for pipeline agent</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=08cc82196b45453218b4b8c21f64c6df7dab6c31" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">08cc821</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-15</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="calling build script (changed to call cli)"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=a85adca347f772df499a4af03279d274d651c24a" style="color:var(--fg)">calling build script (changed to call cli)</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-15</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1230,12 +1617,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=919c7376af29d13a9a6e96daf68c354985696727" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">919c737</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=a85adca347f772df499a4af03279d274d651c24a" class="cidash-rev-msg" title="calling build script (changed to call cli)">calling build script (changed to call cli)</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=a85adca347f772df499a4af03279d274d651c24a" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">a85adca</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-15</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Added Jenkinsfile"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=919c7376af29d13a9a6e96daf68c354985696727" style="color:var(--fg)">Added Jenkinsfile</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-15</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1245,12 +1635,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=439c6ec1d50b3bec2c3ea0680fc5db5132c1fbd9" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">439c6ec</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=919c7376af29d13a9a6e96daf68c354985696727" class="cidash-rev-msg" title="Added Jenkinsfile">Added Jenkinsfile</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=919c7376af29d13a9a6e96daf68c354985696727" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">919c737</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-15</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="fixed paths"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=439c6ec1d50b3bec2c3ea0680fc5db5132c1fbd9" style="color:var(--fg)">fixed paths</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-15</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1260,12 +1653,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ceac4299b25f08a6afe69b2957bbd4a9c55fbf86" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">ceac429</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=439c6ec1d50b3bec2c3ea0680fc5db5132c1fbd9" class="cidash-rev-msg" title="fixed paths">fixed paths</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=439c6ec1d50b3bec2c3ea0680fc5db5132c1fbd9" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">439c6ec</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-15</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="fixing build script path"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ceac4299b25f08a6afe69b2957bbd4a9c55fbf86" style="color:var(--fg)">fixing build script path</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-15</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1275,12 +1671,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=44e577379ed9ad7dbd5cc1c10815f5b32d39ca06" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">44e5773</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ceac4299b25f08a6afe69b2957bbd4a9c55fbf86" class="cidash-rev-msg" title="fixing build script path">fixing build script path</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ceac4299b25f08a6afe69b2957bbd4a9c55fbf86" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">ceac429</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-15</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="adding call to Jenkins.bat to pipeline"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=44e577379ed9ad7dbd5cc1c10815f5b32d39ca06" style="color:var(--fg)">adding call to Jenkins.bat to pipeline</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-15</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1290,12 +1689,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=9bd9ee4e8d7fc9b101eace13e6e75adc753dc530" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">9bd9ee4</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=44e577379ed9ad7dbd5cc1c10815f5b32d39ca06" class="cidash-rev-msg" title="adding call to Jenkins.bat to pipeline">adding call to Jenkins.bat to pipeline</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=44e577379ed9ad7dbd5cc1c10815f5b32d39ca06" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">44e5773</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-15</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="test notepad"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=9bd9ee4e8d7fc9b101eace13e6e75adc753dc530" style="color:var(--fg)">test notepad</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1305,12 +1707,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d128bd6dfe8e0b09d85efecf11c3f4096028c700" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">d128bd6</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=9bd9ee4e8d7fc9b101eace13e6e75adc753dc530" class="cidash-rev-msg" title="test notepad">test notepad</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=9bd9ee4e8d7fc9b101eace13e6e75adc753dc530" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">9bd9ee4</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Added Jenkinsfile"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d128bd6dfe8e0b09d85efecf11c3f4096028c700" style="color:var(--fg)">Added Jenkinsfile</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1320,12 +1725,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=2a9f72ad80dca5ed9a91ef7b46976ceb661cb9eb" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">2a9f72a</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d128bd6dfe8e0b09d85efecf11c3f4096028c700" class="cidash-rev-msg" title="Added Jenkinsfile">Added Jenkinsfile</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d128bd6dfe8e0b09d85efecf11c3f4096028c700" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">d128bd6</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Merge pull request #4 from sganjoo/jenkins"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=2a9f72ad80dca5ed9a91ef7b46976ceb661cb9eb" style="color:var(--fg)">Merge pull request #4 from sganjoo/jenkins</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1335,12 +1743,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5857d68a5b6976d3ba00a5cc5ca06fb1f343351e" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">5857d68</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=2a9f72ad80dca5ed9a91ef7b46976ceb661cb9eb" class="cidash-rev-msg" title="Merge pull request #4 from sganjoo/jenkins">Merge pull request #4 from sganjoo/jenkins</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=2a9f72ad80dca5ed9a91ef7b46976ceb661cb9eb" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">2a9f72a</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="jenkins"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5857d68a5b6976d3ba00a5cc5ca06fb1f343351e" style="color:var(--fg)">jenkins</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1350,12 +1761,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=f0faceb0158327503ad9b71131a8bd4dc665d7b9" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">f0faceb</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5857d68a5b6976d3ba00a5cc5ca06fb1f343351e" class="cidash-rev-msg" title="jenkins">jenkins</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5857d68a5b6976d3ba00a5cc5ca06fb1f343351e" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">5857d68</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Merge pull request #3 from sganjoo/jenkins"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=f0faceb0158327503ad9b71131a8bd4dc665d7b9" style="color:var(--fg)">Merge pull request #3 from sganjoo/jenkins</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1365,12 +1779,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ee82d6ed41a34be428ee61ac83b46bccabf2c4c6" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">ee82d6e</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=f0faceb0158327503ad9b71131a8bd4dc665d7b9" class="cidash-rev-msg" title="Merge pull request #3 from sganjoo/jenkins">Merge pull request #3 from sganjoo/jenkins</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=f0faceb0158327503ad9b71131a8bd4dc665d7b9" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">f0faceb</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="fixed"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ee82d6ed41a34be428ee61ac83b46bccabf2c4c6" style="color:var(--fg)">fixed</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1380,12 +1797,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=02e5b12a7be584b944121a64652ad4fea435113f" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">02e5b12</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ee82d6ed41a34be428ee61ac83b46bccabf2c4c6" class="cidash-rev-msg" title="fixed">fixed</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ee82d6ed41a34be428ee61ac83b46bccabf2c4c6" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">ee82d6e</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="fixes to quotes in jenkinsfile"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=02e5b12a7be584b944121a64652ad4fea435113f" style="color:var(--fg)">fixes to quotes in jenkinsfile</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1395,12 +1815,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=c49773b5812344014e15a9d5526d4a7b136a6857" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">c49773b</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=02e5b12a7be584b944121a64652ad4fea435113f" class="cidash-rev-msg" title="fixes to quotes in jenkinsfile">fixes to quotes in jenkinsfile</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=02e5b12a7be584b944121a64652ad4fea435113f" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">02e5b12</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="changing to bat"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=c49773b5812344014e15a9d5526d4a7b136a6857" style="color:var(--fg)">changing to bat</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1410,12 +1833,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=1e104059ef72c795d4a9da7687485cfc48c462c7" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">1e10405</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=c49773b5812344014e15a9d5526d4a7b136a6857" class="cidash-rev-msg" title="changing to bat">changing to bat</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=c49773b5812344014e15a9d5526d4a7b136a6857" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">c49773b</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="fixed cli"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=1e104059ef72c795d4a9da7687485cfc48c462c7" style="color:var(--fg)">fixed cli</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1425,12 +1851,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=62ecc7d9e8b36de35db101777af8e95fb4ed8fa2" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">62ecc7d</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=1e104059ef72c795d4a9da7687485cfc48c462c7" class="cidash-rev-msg" title="fixed cli">fixed cli</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=1e104059ef72c795d4a9da7687485cfc48c462c7" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">1e10405</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Added Jenkinsfile"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=62ecc7d9e8b36de35db101777af8e95fb4ed8fa2" style="color:var(--fg)">Added Jenkinsfile</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1440,12 +1869,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=4fa0f5a8e163a9bb64cd1c5f00bdf4d21e06825a" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">4fa0f5a</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=62ecc7d9e8b36de35db101777af8e95fb4ed8fa2" class="cidash-rev-msg" title="Added Jenkinsfile">Added Jenkinsfile</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=62ecc7d9e8b36de35db101777af8e95fb4ed8fa2" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">62ecc7d</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Added Jenkinsfile"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=4fa0f5a8e163a9bb64cd1c5f00bdf4d21e06825a" style="color:var(--fg)">Added Jenkinsfile</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1455,12 +1887,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=3015a74a8877f06f0c2a8e64841d853a4eb06478" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">3015a74</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=4fa0f5a8e163a9bb64cd1c5f00bdf4d21e06825a" class="cidash-rev-msg" title="Added Jenkinsfile">Added Jenkinsfile</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=4fa0f5a8e163a9bb64cd1c5f00bdf4d21e06825a" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">4fa0f5a</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Added Jenkinsfile"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=3015a74a8877f06f0c2a8e64841d853a4eb06478" style="color:var(--fg)">Added Jenkinsfile</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1470,12 +1905,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=dfd831349f75a7409895340ff84d2fe028f8327c" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">dfd8313</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=3015a74a8877f06f0c2a8e64841d853a4eb06478" class="cidash-rev-msg" title="Added Jenkinsfile">Added Jenkinsfile</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=3015a74a8877f06f0c2a8e64841d853a4eb06478" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">3015a74</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Added Jenkinsfile"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=dfd831349f75a7409895340ff84d2fe028f8327c" style="color:var(--fg)">Added Jenkinsfile</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1485,12 +1923,33 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=6c32fd21b8db60edbf20936519fe789540018908" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">6c32fd2</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=dfd831349f75a7409895340ff84d2fe028f8327c" class="cidash-rev-msg" title="Added Jenkinsfile">Added Jenkinsfile</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=dfd831349f75a7409895340ff84d2fe028f8327c" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">dfd8313</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="adding jenkins file"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=6c32fd21b8db60edbf20936519fe789540018908" style="color:var(--fg)">adding jenkins file</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+    </tr>
+
+    <tr data-project="false">
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=6c32fd21b8db60edbf20936519fe789540018908" class="cidash-rev-msg" title="adding jenkins file">adding jenkins file</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=6c32fd21b8db60edbf20936519fe789540018908" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">6c32fd2</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
+      </td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1500,12 +1959,15 @@
     </tr>
 
     <tr data-project="true">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=76d160d423366cc27d3bdf3274bb68ff458185ed" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">76d160d</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=76d160d423366cc27d3bdf3274bb68ff458185ed" class="cidash-rev-msg" title="Merge pull request #2 from sganjoo/UploadLVCode">Merge pull request #2 from sganjoo/UploadLVCode</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=76d160d423366cc27d3bdf3274bb68ff458185ed" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">76d160d</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Merge pull request #2 from sganjoo/UploadLVCode"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=76d160d423366cc27d3bdf3274bb68ff458185ed" style="color:var(--fg)">Merge pull request #2 from sganjoo/UploadLVCode</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="masscompile" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" title="Run Mass Compile for commit 76d160d">&#9655;</a></td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vi-analyzer" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" title="Run VI Analyzer for commit 76d160d">&#9655;</a></td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vidiff" data-sha="76d160d423366cc27d3bdf3274bb68ff458185ed" data-parent="0729d5dacf183c6277219b8c8ca771c1d4a5b004" data-short="76d160d" title="Run VIDiff for commit 76d160d">&#9655;</a></td>
@@ -1515,12 +1977,15 @@
     </tr>
 
     <tr data-project="true">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ce624e44402b579722ac26f77e4b88ce2981095f" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">ce624e4</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ce624e44402b579722ac26f77e4b88ce2981095f" class="cidash-rev-msg" title="Adding Array example source">Adding Array example source</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ce624e44402b579722ac26f77e4b88ce2981095f" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">ce624e4</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Adding Array example source"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=ce624e44402b579722ac26f77e4b88ce2981095f" style="color:var(--fg)">Adding Array example source</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="masscompile" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" title="Run Mass Compile for commit ce624e4">&#9655;</a></td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vi-analyzer" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" title="Run VI Analyzer for commit ce624e4">&#9655;</a></td>
       <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vidiff" data-sha="ce624e44402b579722ac26f77e4b88ce2981095f" data-parent="2ab15900ed4595d8f92a2223431762acbd27fb59" data-short="ce624e4" title="Run VIDiff for commit ce624e4">&#9655;</a></td>
@@ -1530,12 +1995,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=2ab15900ed4595d8f92a2223431762acbd27fb59" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">2ab1590</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=2ab15900ed4595d8f92a2223431762acbd27fb59" class="cidash-rev-msg" title="Fixed ReadMe">Fixed ReadMe</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=2ab15900ed4595d8f92a2223431762acbd27fb59" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">2ab1590</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-05-14</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Fixed ReadMe"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=2ab15900ed4595d8f92a2223431762acbd27fb59" style="color:var(--fg)">Fixed ReadMe</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-05-14</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1545,12 +2013,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=0729d5dacf183c6277219b8c8ca771c1d4a5b004" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">0729d5d</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=0729d5dacf183c6277219b8c8ca771c1d4a5b004" class="cidash-rev-msg" title="Merge pull request #1 from sganjoo/ReadmeEdit">Merge pull request #1 from sganjoo/ReadmeEdit</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=0729d5dacf183c6277219b8c8ca771c1d4a5b004" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">0729d5d</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-03-19</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Merge pull request #1 from sganjoo/ReadmeEdit"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=0729d5dacf183c6277219b8c8ca771c1d4a5b004" style="color:var(--fg)">Merge pull request #1 from sganjoo/ReadmeEdit</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-03-19</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1560,12 +2031,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=bfe0db90cc43090642f49d62d709385ca174cd15" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">bfe0db9</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=bfe0db90cc43090642f49d62d709385ca174cd15" class="cidash-rev-msg" title="Update ReadMe.txt">Update ReadMe.txt</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=bfe0db90cc43090642f49d62d709385ca174cd15" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">bfe0db9</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-03-19</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Update ReadMe.txt"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=bfe0db90cc43090642f49d62d709385ca174cd15" style="color:var(--fg)">Update ReadMe.txt</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-03-19</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1575,12 +2049,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5317f6c67f9e2606ccad55f12cebc9267c958e7e" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">5317f6c</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5317f6c67f9e2606ccad55f12cebc9267c958e7e" class="cidash-rev-msg" title="Delete README.md">Delete README.md</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5317f6c67f9e2606ccad55f12cebc9267c958e7e" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">5317f6c</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-03-19</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Delete README.md"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=5317f6c67f9e2606ccad55f12cebc9267c958e7e" style="color:var(--fg)">Delete README.md</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-03-19</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1590,12 +2067,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=00d5d46e03cade045df975c694125431b68adc93" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">00d5d46</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=00d5d46e03cade045df975c694125431b68adc93" class="cidash-rev-msg" title="Create ReadMe.txt">Create ReadMe.txt</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=00d5d46e03cade045df975c694125431b68adc93" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">00d5d46</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-03-19</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Create ReadMe.txt"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=00d5d46e03cade045df975c694125431b68adc93" style="color:var(--fg)">Create ReadMe.txt</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-03-19</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1605,12 +2085,15 @@
     </tr>
 
     <tr data-project="false">
-      <td style="padding:8px;font-family:monospace;font-size:.85em">
-        <a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d3b52dde0039574aa86255b08109a3a98ce52c28" style="color:var(--link)" title="Browse this commit's VIs in the VI Browser">d3b52dd</a>
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(33,42%,45%)" title="sganjoo" aria-hidden="true">S</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d3b52dde0039574aa86255b08109a3a98ce52c28" class="cidash-rev-msg" title="Initial commit">Initial commit</a></div>
+            <div class="cidash-rev-meta"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d3b52dde0039574aa86255b08109a3a98ce52c28" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">d3b52dd</a><span class="cidash-rev-dot">&middot;</span>sganjoo<span class="cidash-rev-dot">&middot;</span>2018-03-19</div>
+          </div>
+        </div>
       </td>
-      <td style="padding:8px;font-size:.85em;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Initial commit"><a href="https://sganjoo.github.io/Arrays-Demo/vi-snapshots/index.html?sha=d3b52dde0039574aa86255b08109a3a98ce52c28" style="color:var(--fg)">Initial commit</a></td>
-      <td style="padding:8px;font-size:.82em;color:var(--fg-muted)">sganjoo</td>
-      <td style="padding:8px;font-size:.75em;color:var(--fg-muted)">2018-03-19</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
       <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
@@ -1623,47 +2106,106 @@
   <div id="empty-state" style="display:none;padding:18px;text-align:center;color:var(--fg-muted);font-size:.9em">
     No project revisions in the recent window. <a href="#" onclick="document.getElementById('show-nonproject').click();return false" style="color:var(--link)">Include CI-only revisions</a> to see CI&nbsp;/&nbsp;tooling commits.
   </div>
+  <div id="cidash-noresults" style="display:none;padding:18px;text-align:center;color:var(--fg-muted);font-size:.9em">
+    No revisions match the current filters. <a href="#" id="cidash-clearf" style="color:var(--link)">Clear filters</a>.
+  </div>
   </main>
+  <script>
+    // Relocate the controls (search / status filter / Include CI-only / Columns)
+    // into the shared header's sticky context bar, so they sit in the SAME place
+    // as the revision bar on the report / VI Browser pages and stay visible while
+    // you scroll the table. A DOM move keeps every control's existing listeners;
+    // if the header isn't present the controls simply stay inline (graceful).
+    (function () {
+      function placeControls() {
+        var bar = document.getElementById('lvci-ctxbar');
+        var controls = document.querySelector('.controls');
+        if (bar && controls && controls.parentNode !== bar) {
+          bar.appendChild(controls);
+          controls.classList.add('cidash-in-ctxbar');
+        }
+      }
+      if (window.lvciHeaderReady) placeControls();
+      else document.addEventListener('lvci:ready', placeControls, { once: true });
+    })();
+  </script>
   <script>
     (() => {
       const checkbox = document.getElementById('show-nonproject');
       const rows = document.querySelectorAll('tbody tr[data-project]');
       const emptyState = document.getElementById('empty-state');
-      // Honor the toggle strictly: while "Include CI-only revisions" is
-      // unchecked, only project revisions show. If that hides every row,
-      // reveal an inline prompt (rather than silently showing CI-only rows
-      // or leaving a blank table) inviting the user to enable the toggle.
+      const noresults = document.getElementById('cidash-noresults');
+      const search = document.getElementById('cidash-search');
+      const segBtns = Array.from(document.querySelectorAll('#cidash-statusfilter button'));
+      let statusFilter = 'all', term = '';
+      // Roll a row up to one status from its rendered cells: a failed chip or a
+      // confirmed-failed run badge -> fail; any live run/queued spinner badge ->
+      // running; any result chip -> pass; otherwise no results yet.
+      const rowStatus = (row) => {
+        if (row.querySelector('.cc-fail, .run-badge.cidash-failed')) return 'fail';
+        if (row.querySelector('.run-badge')) return 'running';
+        if (row.querySelector('.cidash-chip')) return 'pass';
+        return 'none';
+      };
+      // A row shows when it passes the CI-only toggle AND the search text AND the
+      // status filter (composed, so the three controls stack).
       const applyFilter = () => {
-        const showNonProject = checkbox.checked;
         let visible = 0;
         rows.forEach((row) => {
           const isProject = row.getAttribute('data-project') === 'true';
-          const show = isProject || showNonProject;
+          let show = isProject || checkbox.checked;
+          if (show && term) show = row.textContent.toLowerCase().includes(term);
+          if (show && statusFilter !== 'all') show = rowStatus(row) === statusFilter;
           row.style.display = show ? '' : 'none';
           if (show) visible++;
         });
-        if (emptyState) emptyState.style.display = visible ? 'none' : '';
+        const filtering = !!term || statusFilter !== 'all';
+        if (emptyState) emptyState.style.display = (!visible && !filtering) ? '' : 'none';
+        if (noresults)  noresults.style.display  = (!visible &&  filtering) ? '' : 'none';
       };
       checkbox.addEventListener('change', applyFilter);
+      if (search) search.addEventListener('input', () => { term = search.value.trim().toLowerCase(); applyFilter(); });
+      segBtns.forEach((b) => b.addEventListener('click', () => {
+        segBtns.forEach((x) => x.classList.remove('on'));
+        b.classList.add('on');
+        statusFilter = b.getAttribute('data-status');
+        applyFilter();
+      }));
+      const clr = document.getElementById('cidash-clearf');
+      if (clr) clr.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (search) search.value = '';
+        term = ''; statusFilter = 'all';
+        segBtns.forEach((x) => x.classList.toggle('on', x.getAttribute('data-status') === 'all'));
+        applyFilter();
+      });
       applyFilter();
     })();
 
+    // Mobile cards: stamp each body cell with its column name so the responsive
+    // <=820px layout (table collapses to cards) can show the column label beside
+    // each value via CSS content:attr(data-label).
+    (() => {
+      const ths = Array.from(document.querySelectorAll('#cidash-table > thead th')).map((t) => t.textContent.trim());
+      document.querySelectorAll('#cidash-table > tbody > tr').forEach((tr) => {
+        Array.from(tr.children).forEach((td, i) => { if (ths[i]) td.setAttribute('data-label', ths[i]); });
+      });
+    })();
+
     // Column-visibility menu: a standard "Columns" dropdown of checkboxes that
-    // toggles each (non-identifier) column on/off, persisted per-repo in
-    // localStorage so the choice survives reloads. Commit (column 0) is the row
-    // identifier and is always shown.
+    // toggles each activity column on/off, persisted per-repo in localStorage so
+    // the choice survives reloads. The Revision cell (column 0) is the row
+    // identifier and is always shown. Persistence is keyed by column KEY, so the
+    // idx values can change without invalidating a saved preference.
     (() => {
       const STORE = 'lvci_dash_cols_sganjoo/Arrays-Demo';
       const COLS = [
-        {key:'message',     label:'Message',      idx:1},
-        {key:'author',      label:'Author',       idx:2},
-        {key:'date',        label:'Date',         idx:3},
-        {key:'masscompile', label:'Mass Compile', idx:4},
-        {key:'vi-analyzer', label:'VI Analyzer',  idx:5},
-        {key:'vidiff',      label:'VIDiff',       idx:6},
-        {key:'snapshots',   label:'Snapshots',    idx:7},
-        {key:'unit-tests',  label:'Unit Tests',   idx:8},
-        {key:'antidoc',     label:'Antidoc',      idx:9}
+        {key:'masscompile', label:'Mass Compile', idx:1},
+        {key:'vi-analyzer', label:'VI Analyzer',  idx:2},
+        {key:'vidiff',      label:'VIDiff',       idx:3},
+        {key:'snapshots',   label:'Snapshots',    idx:4},
+        {key:'unit-tests',  label:'Unit Tests',   idx:5},
+        {key:'antidoc',     label:'Antidoc',      idx:6}
       ];
       const btn = document.getElementById('cidash-colbtn');
       const panel = document.getElementById('cidash-colpanel');
