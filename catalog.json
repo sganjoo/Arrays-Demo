@@ -1,11 +1,55 @@
 {
   "schemaVersion": 1,
-  "version": "3.36.0",
+  "version": "3.37.2",
   "name": "LabVIEW CI",
   "description": "Portable, repo-agnostic CI/CD capabilities for LabVIEW repositories: mass compile, VI Analyzer, VIDiff comparison reports, VI snapshots / VI Browser, and a status dashboard. Driven entirely by this catalog so the configurator UI and the installer stay in sync and new capabilities are a one-entry change.",
   "history": {
     "comment": "Release notes for the tooling, newest first. `version` (above) is the CURRENT published release and MUST equal releases[0].version. The dashboard version badge and the What's New dialog read these notes to tell a consumer what changed between the version they run and the latest this source repo publishes. Each published version should also be tagged v<version> in this repo so consumers can pin an update to a specific release.",
     "releases": [
+      {
+        "version": "3.37.2",
+        "date": "2026-06-22",
+        "title": "A job started while the worker image is rebuilding reliably waits, even through a brief Actions-API hiccup",
+        "summary": "When a worker container image is being (re)built and someone pushes a change or enqueues a job in the meantime, that job's container activities (mass compile, VI Analyzer, VIDiff, snapshots, unit tests, Antidoc) already wait for the build to finish before they run, on every Windows and Linux container workflow. This release closes a small gap in that guarantee: the check that decides whether a build is in progress made a single Actions-API call, and if that one call failed transiently (a blip or a momentary rate limit) the job would treat it as 'nothing building' and start early on a stale or half-built image. The check now retries a failed API call a few times before deciding, so a transient hiccup no longer lets a job slip past the wait. A genuine permissions gap still falls through without waiting, so CI is never wedged.",
+        "highlights": [
+          "Jobs enqueued while the worker image is rebuilding wait for the build to finish, then run on the freshly built image -- on all Windows and Linux container workflows",
+          "The in-progress-build check now retries on a failed Actions-API call instead of assuming 'nothing is building' and starting early",
+          "A real actions:read permission gap still never wedges CI (the check falls through after a few quick retries)"
+        ]
+      },
+      {
+        "version": "3.37.1",
+        "date": "2026-06-22",
+        "title": "Windows container jobs wait for the Docker engine instead of failing when a hosted runner starts up without it",
+        "summary": "GitHub's hosted windows-2022 runner pool is currently, intermittently, starting jobs before the Docker engine is up -- or on a VM where the docker service has not been registered yet (actions/runner-images#14252 and #13888). When a job landed on one of those runners, the worker image build and the Windows container activities (mass compile, VI Analyzer, VIDiff, snapshots, unit tests, Antidoc) failed immediately with 'failed to connect to the docker API ... the system cannot find the file specified' or 'Docker service not found on this runner', even though re-running usually lands on a healthy runner. Every Windows job that uses Docker now runs a shared ensure-docker step that waits up to three minutes for the engine to respond -- starting, or if necessary registering, the docker service first -- and only fails, with a clear message, if Docker never comes up. The worker image build and the VIDiff Windows job, which previously had no such guard at all, are now covered too. Healthy runners are unaffected (the check returns in about a second).",
+        "highlights": [
+          "A shared ensure-docker.ps1 waits for and starts the Docker engine, so a hosted-runner Docker hiccup no longer turns into an immediate red build",
+          "The worker image build and the VIDiff Windows container job, which had no Docker readiness check before, now use it too",
+          "Clear, actionable error if Docker never starts (re-run to get a healthy runner, or use a self-hosted Windows runner) instead of a cryptic npipe failure"
+        ]
+      },
+      {
+        "version": "3.37.0",
+        "date": "2026-06-22",
+        "title": "Container CI works on repos whose default branch is not main, and the worker image build no longer fails on a missing Dockerfile",
+        "summary": "Two fixes make a fresh container install actually run on more repositories. First, the worker image build was failing immediately with 'the system cannot find the file specified' because the install copied only labview-ci.Dockerfile, not the two Dockerfiles the Windows build actually uses (labview-vipm-base.Dockerfile and labview-vipc-layer.Dockerfile, introduced when the worker was split into a shared base plus a VIPC layer). The install now vendors all three, so Build LabVIEW CI Image succeeds and the container activities (mass compile, VI Analyzer, VIDiff, snapshots, unit tests, Antidoc) get a real image. Second, the container workflows assumed the default branch was named main: the 'Restore CI scripts' step ran 'git fetch origin main' and failed with exit 128 ('couldn't find remote ref main') on a repo whose default branch is master, and the push trigger only fired on main. The fetch now uses the repository's actual default branch, and Apply to New Repo rewrites the push-trigger branch to the target repo's default branch at install time, so push-to-default CI fires regardless of the branch name.",
+        "highlights": [
+          "Worker image build no longer fails on a missing Dockerfile: the install now vendors labview-vipm-base.Dockerfile and labview-vipc-layer.Dockerfile alongside labview-ci.Dockerfile",
+          "Container workflows fetch CI scripts from the repository's default branch instead of a hardcoded 'main', fixing the exit-128 'couldn't find remote ref main' failure on master-default repos",
+          "Apply to New Repo rewrites the workflow push-trigger branch to the target repo's default branch, so push-to-default CI runs on repos that don't use 'main'"
+        ]
+      },
+      {
+        "version": "3.36.1",
+        "date": "2026-06-22",
+        "title": "Re-running Apply to New Repo now repairs a non-markdown README too",
+        "summary": "When a repository already had the dashboard section added to a non-markdown README (e.g. ReadMe.txt, where GitHub shows the markdown as raw text instead of rendering the badge and link), re-running Apply to New Repo now creates a proper README.md so the dashboard link renders. Previously the re-install detected the existing marker and skipped the README entirely, leaving the badge unrendered. The original plain-text file is left untouched, and the previously injected non-rendering section is dropped from the new README.md so it is not duplicated. Markdown READMEs that already link the dashboard are still left alone.",
+        "highlights": [
+          "Re-installing into a repo whose README is plain text (ReadMe.txt, etc.) now migrates the dashboard badge into a real README.md that actually renders, instead of skipping it",
+          "The earlier non-rendering section spliced into the plain-text README is removed from the generated README.md so the section is not duplicated",
+          "Markdown READMEs already linking the dashboard remain untouched (no duplicate sections)"
+        ]
+      },
       {
         "version": "3.36.0",
         "date": "2026-06-22",
@@ -2530,7 +2574,8 @@
       ".github/labview-ci/install.sh",
       ".github/labview-ci/install.ps1",
       ".github/labview-ci/README.md",
-      ".github/labview/wait-for-worker-image.sh"
+      ".github/labview/wait-for-worker-image.sh",
+      ".github/labview/ensure-docker.ps1"
     ]
   },
   "capabilities": [
@@ -2723,6 +2768,8 @@
         "windows": [
           ".github/workflows/build-labview-image.yml",
           ".github/docker/labview-ci.Dockerfile",
+          ".github/docker/labview-vipm-base.Dockerfile",
+          ".github/docker/labview-vipc-layer.Dockerfile",
           ".github/labview/vipm/"
         ],
         "linux": [
