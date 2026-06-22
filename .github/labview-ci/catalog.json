@@ -1,11 +1,55 @@
 {
   "schemaVersion": 1,
-  "version": "3.35.3",
+  "version": "3.36.0",
   "name": "LabVIEW CI",
   "description": "Portable, repo-agnostic CI/CD capabilities for LabVIEW repositories: mass compile, VI Analyzer, VIDiff comparison reports, VI snapshots / VI Browser, and a status dashboard. Driven entirely by this catalog so the configurator UI and the installer stay in sync and new capabilities are a one-entry change.",
   "history": {
     "comment": "Release notes for the tooling, newest first. `version` (above) is the CURRENT published release and MUST equal releases[0].version. The dashboard version badge and the What's New dialog read these notes to tell a consumer what changed between the version they run and the latest this source repo publishes. Each published version should also be tagged v<version> in this repo so consumers can pin an update to a specific release.",
     "releases": [
+      {
+        "version": "3.36.0",
+        "date": "2026-06-22",
+        "title": "Fresh installs build the worker container image automatically and CI waits for it",
+        "summary": "Installing into a new repository now makes the container CI work end to end without a manual step. When the custom-image capability is installed, Apply to New Repo dispatches the Build LabVIEW CI Image workflow the moment the install merges, so the worker container image (ghcr.io/<owner>/<repo>-labview, built with your baked dependency VIPC) exists for the first run. Container activities (mass compile, VI Analyzer, VIDiff, snapshots, unit tests, Antidoc) now wait for an in-progress image build instead of failing with a confusing manifest unknown / Failed to start container error. The README dashboard badge is also added correctly when the repository has a non-markdown README (e.g. ReadMe.txt): a proper README.md is created so the badge and link render instead of showing raw markdown.",
+        "highlights": [
+          "Apply to New Repo builds the worker container image right after the install merges, so container CI is ready without a separate manual build",
+          "Container CI activities wait for an in-progress worker-image build (with clear guidance on timeout) instead of failing on a missing image",
+          "Non-markdown READMEs (ReadMe.txt, etc.) get a real README.md with the dashboard badge so the link renders, leaving the original file untouched"
+        ]
+      },
+      {
+        "version": "3.35.6",
+        "date": "2026-06-22",
+        "title": "Dashboard dialogs no longer vanish mid-install when the page auto-refreshes",
+        "summary": "The dashboard auto-refresh that keeps the page live while CI runs no longer reloads the page while a dialog is open, so Apply to New Repo (and Configure, VI Analyzer, Unit Testing, and What\u0027s New) can finish without the dialog disappearing on its own. Previously a busy dashboard reloaded about once a minute via an HTML meta refresh and a queued-run fast reload, which destroyed the open install iframe before it could show the result -- even though the install itself had completed.",
+        "highlights": [
+          "Auto-refresh is now a guarded JavaScript timer instead of an uncancellable HTML meta refresh; it reloads on the same cadence but waits while a dialog is open and reloads once it is closed",
+          "The queued-run fast reload defers the same way, so neither refresh path can blow away an in-progress install",
+          "Apply to New Repo now reliably shows its Done summary with the pull request and dashboard links instead of the dialog closing unexpectedly"
+        ]
+      },
+      {
+        "version": "3.35.5",
+        "date": "2026-06-22",
+        "title": "VI Browser 2.0: paging through cases no longer zooms the diagram",
+        "summary": "In the position-aware VI Browser (Snapshot 2.0) renderer, clicking through a Case/Event/Sequence structure's cases no longer randomly zooms the block diagram. Double-clicking a case selector arrow (or the Fit button) is now ignored by the zoom handler, so the diagram size stays fixed while you navigate cases.",
+        "highlights": [
+          "Double-clicking the case selector arrows or the Fit button no longer triggers the double-click-to-zoom action.",
+          "Background double-click-to-zoom on the diagram itself is unchanged.",
+          "Case navigation and the diagram fit/size are unaffected otherwise."
+        ]
+      },
+      {
+        "version": "3.35.4",
+        "date": "2026-06-22",
+        "title": "Dependencies page surfaces the Linux note as a column info popover",
+        "summary": "The standalone \"Linux VIPC support is coming\" banner on the Dependencies page is gone. The Linux column header now carries the same info (i) marker the Win Beta column uses, and clicking it opens a popover explaining that the Linux container does not yet apply repository VIPC configurations, so Linux package coverage shows as missing for now. The Win Beta popover, which previously rendered far too narrow near the right edge of the table, now opens at a stable readable width.",
+        "highlights": [
+          "Replaces the page-wide Linux VIPC banner with a compact info popover on the Linux column header, matching the Win Beta treatment.",
+          "Gives the column info popover a fixed 320px width so it no longer collapses to one word per line near the right edge.",
+          "Keeps the same explanation text; only its presentation moved from a banner to an on-demand popover."
+        ]
+      },
       {
         "version": "3.35.3",
         "date": "2026-06-22",
