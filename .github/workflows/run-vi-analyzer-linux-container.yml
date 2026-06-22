@@ -10,7 +10,7 @@ on:
       - '**.lvclass'
       - '!.github/**'
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - '**.vi'
       - '**.ctl'
