@@ -1,8 +1,15 @@
 {
   "schema": 1,
   "repo": "sganjoo/Arrays-Demo",
-  "sha": "147379731e56900975183525bd4bf461b473a2ff",
+  "sha": "197d30c9f0b608ef262787b24dd0bac4d5d93bea",
   "revisions": [
+    {
+      "sha": "197d30c9f0b608ef262787b24dd0bac4d5d93bea",
+      "short": "197d30c",
+      "message": "Add LabVIEW CI pipeline",
+      "author": "Sumedha Ganjoo",
+      "date": "2026-06-23T14:24:10Z"
+    },
     {
       "sha": "147379731e56900975183525bd4bf461b473a2ff",
       "short": "1473797",
@@ -319,10 +326,18 @@
   },
   "vipc": [
     {
-      "path": "github/labview/vipm/ci-tooling.vipc",
-      "configured": false,
-      "packages": [],
-      "error": "[Errno 2] No such file or directory: 'github/labview/vipm/ci-tooling.vipc'"
+      "path": ".github/labview/vipm/ci-tooling.vipc",
+      "role": "core",
+      "capability": "",
+      "configured": true,
+      "packages": [
+        "dataflow_g_lib_g_image-0.5.0.1",
+        "jki_lib_caraya-1.4.4.148",
+        "jki_vi_tester",
+        "ni_lib_junit_results_api-1.0.1.6",
+        "ni_lib_utf_junit_report-1.0.1.43"
+      ],
+      "error": ""
     }
   ],
   "nipm": [
@@ -367,23 +382,42 @@
       "details": "NI UTF support package used by the Windows unit-test runner."
     },
     {
+      "name": "JKI Dragon",
+      "source": "NI Package Manager",
+      "packages": {
+        "windows": [
+          "jki-dragon"
+        ]
+      },
+      "platforms": [
+        "windows"
+      ],
+      "details": "JKI Dragon dependency-management tooling installed from the LabVIEW 2026 NI Package Manager feed."
+    },
+    {
       "name": "VI Package Manager",
       "source": "NI Package Manager",
       "packages": {
         "windows": [
           "ni-vipm"
-        ],
-        "linux": [
-          "ni-vipm"
         ]
       },
       "platforms": [
-        "windows",
-        "linux"
+        "windows"
       ],
-      "details": "NI-published VIPM package that enables VIPC application during worker builds."
+      "details": "NI-published Windows VIPM package that enables VIPC application during worker builds. Linux installs VIPM from the native Debian package during its worker build."
     }
   ],
+  "dragon": {
+    "available": false,
+    "column": "winExp",
+    "ready": false,
+    "health": "",
+    "manifest_version": "",
+    "files": [],
+    "install_set": [],
+    "conflicts": []
+  },
   "system": [
     {
       "name": "VI Browser 2.0 toimages runner",
@@ -432,6 +466,7 @@
         "ni_lib_utf_junit_report-1.0.1.43",
         "wovalab_lib_antidoc_cli-3.3.0.117"
       ],
+      "failed_packages": [],
       "nipkg_ready": true,
       "nipkg_packages": [
         {
@@ -554,28 +589,15 @@
       "key": "linux",
       "label": "Linux",
       "platform": "linux",
-      "tag": "base",
+      "defaultTag": "latest",
+      "tag": "latest",
       "ready": true,
       "packages": [],
-      "version": "pending",
-      "unsupported": true,
+      "failed_packages": [],
       "nipkg_ready": true,
       "nipkg_packages": [],
-      "nipkg_version": "linux-c6484cf4d66a",
-      "labview_version": "2026"
-    },
-    {
-      "key": "linuxBeta",
-      "label": "Linux Beta",
-      "platform": "linux-beta",
-      "tag": "latest",
-      "defaultTag": "latest",
-      "ready": false,
-      "packages": [],
-      "nipkg_ready": false,
-      "nipkg_packages": [],
-      "labview_version": "",
-      "version": "latest"
+      "labview_version": "2026",
+      "version": "linux-c6484cf4d66a"
     }
   ]
 }
