@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "platform": "linux",
+  "version": "linux-8a3f6613f8b8",
+  "labview_version": "2026",
+  "base_image": "nationalinstruments/labview:latest-linux",
+  "base_digest": "ghcr.io/sganjoo/arrays-demo-labview@sha256:8494ce07717b96f45f9f79a2c380268acdd00d02b58509430591590d11bab50e",
+  "image_ref": "ghcr.io/sganjoo/arrays-demo-labview:linux-8a3f6613f8b8",
+  "build_date": "2026-06-23T14:28:13Z",
+  "git_sha": "197d30c9f0b608ef262787b24dd0bac4d5d93bea",
+  "run_url": "https://github.com/sganjoo/Arrays-Demo/actions/runs/28033299556",
+  "vipc": [],
+  "nipkg_raw": "",
+  "nipkg_packages": []
+}

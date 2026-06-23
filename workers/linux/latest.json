@@ -1,7 +1,7 @@
 {
-  "version": "linux-c6484cf4d66a",
+  "version": "linux-8a3f6613f8b8",
   "platform": "linux",
-  "manifest_url": "https://sganjoo.github.io/Arrays-Demo/workers/linux/linux-c6484cf4d66a/manifest.html",
-  "build_date": "2026-06-22T21:07:16Z",
-  "git_sha": "ce624e44402b579722ac26f77e4b88ce2981095f"
+  "manifest_url": "https://sganjoo.github.io/Arrays-Demo/workers/linux/linux-8a3f6613f8b8/manifest.html",
+  "build_date": "2026-06-23T14:28:13Z",
+  "git_sha": "197d30c9f0b608ef262787b24dd0bac4d5d93bea"
 }
