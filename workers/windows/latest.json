@@ -1,7 +1,7 @@
-﻿{
-    "version":  "win-7f1608e3de1d",
-    "platform":  "windows",
-    "manifest_url":  "https://sganjoo.github.io/Arrays-Demo/workers/windows/win-7f1608e3de1d/manifest.html",
-    "build_date":  "2026-06-23T16:01:59Z",
-    "git_sha":  "197d30c9f0b608ef262787b24dd0bac4d5d93bea"
+{
+  "version": "win-7dd23cadea7a",
+  "platform": "windows",
+  "manifest_url": "https://sganjoo.github.io/Arrays-Demo/workers/windows/win-7dd23cadea7a/manifest.html",
+  "build_date": "2026-06-25T16:16:31Z",
+  "git_sha": "02d908d7fca826bce1db2d0cba599d0572267baf"
 }
