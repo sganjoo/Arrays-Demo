@@ -1088,8 +1088,8 @@
     // activities to queue. Reuses dispatchCells (oldest-first, snapshots as one
     // backfill) + the same token and optimistic-queued bridge as every other
     // dispatch on the dashboard.
-    var HIST = [{"sha": "76d160d423366cc27d3bdf3274bb68ff458185ed", "short": "76d160d", "msg": "Merge pull request #2 from sganjoo/UploadLVCode", "snapshots2": {"windows": {"have": 0, "total": 5}, "linux": {"have": 5, "total": 5}}}, {"sha": "ce624e44402b579722ac26f77e4b88ce2981095f", "short": "ce624e4", "msg": "Adding Array example source", "snapshots2": {"windows": {"have": 0, "total": 5}, "linux": {"have": 5, "total": 5}}}];                        // [{sha, short, msg}] newest-first (project revisions)
-    var RAN = {"antidoc": 1, "masscompile": 1, "snapshots": 1, "snapshots2": 1, "unit-tests": 1, "vidiff": 1};                     // {cap:1} caps with a result/active run somewhere in history
+    var HIST = [{"sha": "76d160d423366cc27d3bdf3274bb68ff458185ed", "short": "76d160d", "msg": "Merge pull request #2 from sganjoo/UploadLVCode", "snapshots2": {"windows": {"have": 0, "total": 5}, "linux": {"have": 0, "total": 5}}}, {"sha": "ce624e44402b579722ac26f77e4b88ce2981095f", "short": "ce624e4", "msg": "Adding Array example source", "snapshots2": {"windows": {"have": 0, "total": 5}, "linux": {"have": 0, "total": 5}}}];                        // [{sha, short, msg}] newest-first (project revisions)
+    var RAN = {"antidoc": 1, "masscompile": 1, "snapshots": 1, "unit-tests": 1, "vidiff": 1};                     // {cap:1} caps with a result/active run somewhere in history
     var CAP_META = {                            // label + sub for each known capability
       'snapshots':   ['VI Snapshots', 'Renders every changed VI (classic HTML snapshots)'],
       'snapshots2':  ['VI Browser 2.0 Snapshots', 'Renders position-aware snapshots for the VI Browser 2.0 view'],
@@ -1495,7 +1495,7 @@
   </script>
   <main class="lvci-main">
   <h1>CI Dashboard — Arrays-Demo</h1>
-  <div class="sub">Last updated: 2026-07-18 15:54 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
+  <div class="sub">Last updated: 2026-07-18 16:55 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
   <div class="nav">
     <a href="https://github.com/sganjoo/Arrays-Demo">GitHub</a>
     <a href="https://github.com/sganjoo/Arrays-Demo/actions">Actions</a>
