@@ -1,0 +1,33 @@
+{
+  "schema": 2,
+  "platform": "windows",
+  "version": "win-79c28c9b2933",
+  "labview_version": "2026",
+  "base_image": "ghcr.io/elijah286/labview-ci-with-containers-labview-base:2026",
+  "base_digest": "sha256:5ca79385260dd195e31b1582607b2e0916bf41248bd431379af893b84af1d476",
+  "seed_image": "ghcr.io/elijah286/labview-ci-with-containers-labview-base:2026",
+  "seed_digest": "sha256:5ca79385260dd195e31b1582607b2e0916bf41248bd431379af893b84af1d476",
+  "worker_layer": "seed-only-copy",
+  "copied_from_base": true,
+  "image_ref": "ghcr.io/sganjoo/arrays-demo-labview:win-79c28c9b2933",
+  "build_date": "2026-08-01T06:35:51Z",
+  "git_sha": "3ca6f262e082dd2c48f4f3ff82113f4df4cb3bfa",
+  "run_url": "https://github.com/sganjoo/Arrays-Demo/actions/runs/30688008794",
+  "vipc": [
+    {
+      "file": "ci-tooling.vipc",
+      "packages": [
+        "dataflow_g_lib_g_image-0.5.0.1",
+        "jki_lib_caraya-1.4.4.148",
+        "jki_vi_tester",
+        "ni_lib_junit_results_api-1.0.1.6",
+        "ni_lib_utf_junit_report-1.0.1.43"
+      ],
+      "present": true
+    }
+  ],
+  "vipm_raw": "",
+  "vipm_packages": [],
+  "nipkg_raw": "",
+  "nipkg_packages": []
+}
