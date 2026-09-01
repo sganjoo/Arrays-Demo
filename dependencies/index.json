@@ -498,7 +498,7 @@
       "nipkg_ready": true,
       "nipkg_packages": [],
       "labview_version": "2026",
-      "version": "win-79c28c9b2933"
+      "version": "win-254f4945ea59"
     },
     {
       "key": "linux",
@@ -512,7 +512,7 @@
       "nipkg_ready": true,
       "nipkg_packages": [],
       "labview_version": "2026",
-      "version": "linux-faa4596c3848"
+      "version": "linux-4ce478ba9bb6"
     }
   ]
 }
